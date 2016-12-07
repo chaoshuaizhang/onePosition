@@ -1,18 +1,18 @@
-package cn.shopin.oneposition.fragments;
+package cn.shopin.oneposition.fragments.moviefrag;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.fragments.BaseMvpFragment;
 
 /**
  * Created by zcs on 2016/12/5.
  */
-public class MovieFragment extends Fragment {
+public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView {
     /**
      * fragment初始化的时候调用，我们通常在这个方法中使
      * 用getArguments获取activity传来的初始化fragment的参数。
@@ -27,8 +27,8 @@ public class MovieFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected MoviePresenter createPresenter(MovieContract.IMovieView view) {
+        return new MoviePresenter(this);
     }
 
     /**
@@ -36,7 +36,7 @@ public class MovieFragment extends Fragment {
      * Nullable 表示可以为空-即：可传空值
      */
     @Nullable
-    @Override
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_movie, null);
         return view;

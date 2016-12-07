@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -9,12 +9,15 @@
         android:id="@+id/tab_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        />
-
+        android:background="@mipmap/ic_launcher" />
+    <!--
+    background会根据ImageView组件给定的长宽进行拉伸，
+    而src就存放的是原图的大小，不会进行拉伸 。src是图片
+    内容（前景），bg是背景，可以同时使用。
+    -->
     <TextView
         android:id="@+id/tab_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tab_img" />
-</RelativeLayout>
+        android:text="icon" />
+</LinearLayout>
