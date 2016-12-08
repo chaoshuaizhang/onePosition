@@ -2,32 +2,30 @@ package cn.shopin.oneposition.activities.main;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
-<<<<<<< HEAD:onePosition/app/src/main/java/cn/shopin/oneposition/activities/MainActivity.java
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-=======
 import android.util.Log;
->>>>>>> d04866da69d4bea101010182596450b4c75df838:onePosition/app/src/main/java/cn/shopin/oneposition/activities/main/MainActivity.java
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.activities.BaseMvpActivity;
 import cn.shopin.oneposition.fragments.BalloonFragment;
 import cn.shopin.oneposition.fragments.HeartFragment;
 import cn.shopin.oneposition.fragments.LvRadioFragment;
-import cn.shopin.oneposition.fragments.moviefrag.MovieFragment;
 import cn.shopin.oneposition.fragments.PcOnlineFragment;
+import cn.shopin.oneposition.fragments.moviefrag.MovieFragment;
 
 /**
- * movie heart lv  balloon
+ * 电影 我心 直播 太平洋 氢气球
  */
 public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPresenter> implements MainContract.IMainView {
 
     private FragmentTabHost fragTabHost;
     private Class[] fragClass;
     private int[] icons;
+    private String[] iconsText;
+    private ImageView centerImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,26 @@ public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPr
                 PcOnlineFragment.class, BalloonFragment.class};
         icons = new int[]{R.drawable.icon_movie_pressed, R.drawable.icon_heart_pressed, R.drawable.icon_radio_pressed,
                 R.drawable.icon_ocean_pressed, R.drawable.icon_balloon_pressed};
+        iconsText = new String[]{"movie", "heart", "", "ocean", "balloon"};
 
     }
 
     private void initView() {
+        centerImg = (ImageView) findViewById(R.id.center_img);
         fragTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         fragTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+//        slidingMenu = new SlidingMenu(this);
+//        slidingMenu.setMode(SlidingMenu.LEFT);
+//        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);//设置滑动边缘
+//        // 设置滑动菜单视图的宽度
+//        slidingMenu.setBehindOffsetRes(200);
+//        // 设置渐入渐出效果的值
+//        slidingMenu.setFadeDegree(0.35f);
+//        /**
+//         * SLIDING_WINDOW will include the Title/ActionBar in the content
+//         * section of the SlidingMenu, while SLIDING_CONTENT does not.
+//         */
+//        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         fragTabHost.getTabWidget().setDividerDrawable(null);
 //        fragTabHost.getTabWidget().setAnimation(new AnimationSet());
         for (int i = 0; i < icons.length; i++) {
@@ -70,8 +82,10 @@ public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPr
         View view = View.inflate(MainActivity.this, R.layout.frag_item_indicator, null);
         //取得布局对象
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_img);
+        TextView textView = (TextView) view.findViewById(R.id.tab_tv);
         //设置图标
         imageView.setBackgroundResource(icons[i]);
+        textView.setText(iconsText[i]);
         return view;
     }
 
