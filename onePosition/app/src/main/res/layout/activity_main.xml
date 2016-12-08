@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,22 +9,22 @@
     <FrameLayout
         android:id="@+id/realtabcontent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_above="@android:id/tabhost"
         android:background="#FFFFFF">
-
     </FrameLayout>
 
     <android.support.v4.app.FragmentTabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
 
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="0" />
+            android:layout_height="0dp" />
         <!--TabWidget不能写，否则会报No tab content FrameLayout found for id xxx错误，不能运行-->
         <!--
                 <TabWidget
@@ -35,7 +35,15 @@
                     android:divider="#000000"
                     android:orientation="horizontal" />
          -->
-
     </android.support.v4.app.FragmentTabHost>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/center_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/icon_radio_center" />
+
+</RelativeLayout>
