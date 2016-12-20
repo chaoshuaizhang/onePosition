@@ -17,17 +17,21 @@ public class HeartFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("TAG", "HeartFragment onCreate");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d("TAG", "HeartFragment onActivityCreated");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("TAG", "HeartFragment onCreateView");
         View view = inflater.inflate(R.layout.frag_heart, null);
         return view;
     }
+
 }

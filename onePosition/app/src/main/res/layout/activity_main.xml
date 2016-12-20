@@ -11,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@android:id/tabhost"
-        android:background="#FFFFFF">
-    </FrameLayout>
+        android:background="#FFFFFF"></FrameLayout>
 
     <android.support.v4.app.FragmentTabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <FrameLayout
             android:id="@android:id/tabcontent"

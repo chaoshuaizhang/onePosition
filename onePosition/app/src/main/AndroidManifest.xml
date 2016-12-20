@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.shopin.oneposition">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".Myapplication"
         android:allowBackup="true"
@@ -17,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.BaseMvpActivity"></activity>
+        <activity android:name=".activities.BaseMvpActivity" />
+        <activity android:name=".activities.welcome.WelcomeActivity"></activity>
     </application>
 
 </manifest>
