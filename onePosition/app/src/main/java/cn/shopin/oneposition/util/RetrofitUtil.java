@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtil {
     private static Retrofit retrofit = null;
 
-    public static Retrofit getRetrofitInstnce() {
+    public static Retrofit getRetrofitInstnce(int tag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new MyInter())
                 .connectTimeout(30, TimeUnit.SECONDS)//设置链接超时
@@ -39,6 +39,7 @@ public class RetrofitUtil {
         return retrofit;
     }
 }
+
 class MyInter implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

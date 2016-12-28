@@ -12,7 +12,7 @@ import rx.schedulers.Schedulers;
 public class MovieModel implements MovieContract.IMovieModel {
     @Override
     public void getBanners() {
-        Retrofit retrofit = RetrofitUtil.getRetrofitInstnce();
+        Retrofit retrofit = RetrofitUtil.getRetrofitInstnce(0);
         MovieApi movieApi = retrofit.create(MovieApi.class);
         movieApi.getTopBanner("0", "10", "1", "0", "0", "1", "-1")
                 .mergeWith(movieApi.getTopADBanner("0", "0", "10", "0"))

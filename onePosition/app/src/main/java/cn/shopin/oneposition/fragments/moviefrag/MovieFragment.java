@@ -3,6 +3,7 @@ package cn.shopin.oneposition.fragments.moviefrag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
@@ -11,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.adapter.ViewPagerAdapter;
+import cn.shopin.oneposition.customview.ItemView;
+import cn.shopin.oneposition.customview.TabButton;
 import cn.shopin.oneposition.fragments.BaseMvpFragment;
 import cn.shopin.oneposition.fragments.moviefrag.collection.CollectionFrag;
 import cn.shopin.oneposition.fragments.moviefrag.nostalgic.NostalgicFrag;
@@ -36,6 +40,8 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     private CollectionFrag collectionFrag;
     private NostalgicFrag nostalgicFrag;
     private MoviePieceFrag moviePieceFrag;
+    private TabButton tabButton;
+    private FragmentManager fragManager;
 
     /**
      * fragment初始化的时候调用，我们通常在onCreate方法中使
@@ -48,6 +54,8 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sparseArray = new SparseArray<>();
+        inidFrags();
         Log.d("TAG", "MovieFragment onCreate");
     }
 
@@ -66,10 +74,58 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         View view = inflater.inflate(R.layout.frag_movie, null);
         fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        sparseArray = new SparseArray<>();
-        inidFrags();
+        tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
+        //定义hover item
+        ItemView item1 = new ItemView(getActivity());
+        ItemView item2 = new ItemView(getActivity());
+        ItemView item3 = new ItemView(getActivity());
+        item1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "1", Toast.LENGTH_SHORT).show();
+                if (sparseArray.get(1).isAdded()) {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(1)).commit();
+                } else {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(1)).commit();
+                }
+                sparseArray.put(4, sparseArray.get(1));
+            }
+        });
+        item2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "2", Toast.LENGTH_SHORT).show();
+                if (sparseArray.get(2).isAdded()) {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(2)).commit();
+                } else {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(2)).commit();
+                }
+                sparseArray.put(4, sparseArray.get(2));
+            }
+        });
+        item3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "3", Toast.LENGTH_SHORT).show();
+                if (sparseArray.get(3).isAdded()) {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(3)).commit();
+                } else {
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(3)).commit();
+                }
+                sparseArray.put(4, sparseArray.get(3));
+            }
+        });
+        tabButton.addView(item1);
+        tabButton.addView(item2);
+        tabButton.addView(item3);
         initViewPager();
         initData();
+        Log.d("TTAAGG", fragManager.getFragments().size() + "");
+        if (fragManager.getFragments().size() == 0) {
+            fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(4)).commit();
+        } else {
+            fragManager.beginTransaction().show(sparseArray.get(4)).commit();
+        }
         return view;
     }
 
@@ -77,18 +133,21 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      * 初始化Frags
      */
     private void inidFrags() {
+        fragManager = getFragmentManager();
         collectionFrag = new CollectionFrag();
         nostalgicFrag = new NostalgicFrag();
         moviePieceFrag = new MoviePieceFrag();
         sparseArray.put(1, collectionFrag);
         sparseArray.put(2, nostalgicFrag);
         sparseArray.put(3, moviePieceFrag);
+        sparseArray.put(4, collectionFrag);
     }
 
     private void initViewPager() {
         imgs = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             ImageView img = new ImageView(getActivity());
+            img.setImageResource(R.mipmap.vp);
             imgs.add(img);
         }
         pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
@@ -117,6 +176,6 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
 
     //进行数据加载
     public void initData() {
-        mPresenter.getBanners();
+//        mPresenter.getBanners();
     }
 }

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cn.shopin.oneposition.R;
+
 /**
  * Created by zcs on 2016/12/11.
  */
@@ -14,6 +16,7 @@ public class CollectionFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.frag_collection, null);
+        return view;
     }
 }

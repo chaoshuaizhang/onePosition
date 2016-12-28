@@ -1,17 +1,5 @@
 [
     {
-        "merged": "D:\\move\\svn\\lastprj\\MovieWatch\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
-        "source": "D:\\move\\svn\\lastprj\\MovieWatch\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
-    },
-    {
-        "merged": "D:\\a1607_workspace\\Day41_Project\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
-        "source": "D:\\a1607_workspace\\Day41_Project\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
-    },
-    {
-        "merged": "C:\\Users\\Administrator\\Desktop\\SlidingMenuProject\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
-        "source": "C:\\Users\\Administrator\\Desktop\\SlidingMenuProject\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
-    },
-    {
         "merged": "D:\\changePosition_app\\onePosition\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\slidingmenumain.xml",
         "source": "D:\\changePosition_app\\onePosition\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\layout\\slidingmenumain.xml"
     }
