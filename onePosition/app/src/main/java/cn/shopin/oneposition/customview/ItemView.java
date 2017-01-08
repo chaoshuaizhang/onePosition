@@ -1,6 +1,7 @@
 package cn.shopin.oneposition.customview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ public class ItemView extends TextView {
     public ItemView(Context context) {
         super(context);
         setClickable(true);
+        setTextColor(Color.BLACK);
     }
 
     public ItemView(Context context, AttributeSet attrs) {
@@ -25,6 +27,7 @@ public class ItemView extends TextView {
     public ItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     public int getBgColor() {
         return bgColor;

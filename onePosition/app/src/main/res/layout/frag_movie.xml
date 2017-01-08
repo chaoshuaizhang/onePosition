@@ -31,7 +31,7 @@
                     android:id="@+id/bt_hovertab"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    app:tab_content="左,中,右" />
+                    app:tab_content="收藏,怀旧,排片" />
             </LinearLayout>
 
             <FrameLayout

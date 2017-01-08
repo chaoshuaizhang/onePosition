@@ -42,6 +42,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     private MoviePieceFrag moviePieceFrag;
     private TabButton tabButton;
     private FragmentManager fragManager;
+    private View selectedTab;
 
     /**
      * fragment初始化的时候调用，我们通常在onCreate方法中使
@@ -68,21 +69,32 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      * 这个方法中我们主要是通过布局填充器获取fragment布局.
      * Nullable 表示可以为空-即：可传空值
      */
+    View view;
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("TAG", "MovieFragment onCreateView");
-        View view = inflater.inflate(R.layout.frag_movie, null);
+//        if (view == null) {
+            view = inflater.inflate(R.layout.frag_movie, null);
+//        }
+//        ViewGroup parentView = (ViewGroup) view.getParent();
+//        if (parentView != null) {
+//            parentView.removeView(view);
+//        }
         fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
         //定义hover item
-        ItemView item1 = new ItemView(getActivity());
+        final ItemView item1 = new ItemView(getActivity());
         ItemView item2 = new ItemView(getActivity());
         ItemView item3 = new ItemView(getActivity());
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                sparseArray.put(4, collectionFrag);
+//                resetSelectedTab(view);
                 Toast.makeText(getActivity(), "1", Toast.LENGTH_SHORT).show();
+                item1.setEnabled(false);
                 if (sparseArray.get(1).isAdded()) {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(1)).commit();
                 } else {
@@ -94,6 +106,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         item2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                sparseArray.put(4, nostalgicFrag);
                 Toast.makeText(getActivity(), "2", Toast.LENGTH_SHORT).show();
                 if (sparseArray.get(2).isAdded()) {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(2)).commit();
@@ -106,6 +119,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         item3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                sparseArray.put(4, moviePieceFrag);
                 Toast.makeText(getActivity(), "3", Toast.LENGTH_SHORT).show();
                 if (sparseArray.get(3).isAdded()) {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(3)).commit();
@@ -120,13 +134,24 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         tabButton.addView(item3);
         initViewPager();
         initData();
-        Log.d("TTAAGG", fragManager.getFragments().size() + "");
-        if (fragManager.getFragments().size() == 0) {
-            fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(4)).commit();
-        } else {
+        Log.d("TTAAGG", fragManager.getFragments().size() + "加载个数---Before");
+        if (sparseArray.get(4).isAdded()) {
             fragManager.beginTransaction().show(sparseArray.get(4)).commit();
+        } else {
+            fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(4)).commit();
         }
+        Log.d("TTAAGG", fragManager.getFragments().size() + "加载个数---After");
         return view;
+    }
+
+    private void resetSelectedTab(View view) {
+        if (selectedTab == view) {//已经是被选中了
+
+        } else {
+            selectedTab.setEnabled(true);
+            selectedTab = view;
+            selectedTab.setEnabled(false);
+        }
     }
 
     /**
@@ -134,6 +159,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      */
     private void inidFrags() {
         fragManager = getFragmentManager();
+        Log.d("TTAAGG", fragManager.getFragments().size() + "     +++++");
         collectionFrag = new CollectionFrag();
         nostalgicFrag = new NostalgicFrag();
         moviePieceFrag = new MoviePieceFrag();

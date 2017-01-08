@@ -3,6 +3,7 @@ package cn.shopin.oneposition.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
@@ -39,6 +40,7 @@ public class TabButton extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d("TTAAGG", "进入执行onMeasure");
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int childWidthMeasureSpec = 0;
@@ -60,6 +62,7 @@ public class TabButton extends LinearLayout {
             child.setHeight(maxHeight);
             if (i == 0) {
                 child.setBackgroundResource(R.drawable.bt_left);
+                child.setChecked(true);
             } else if (i == childCounts) {
                 child.setBackgroundResource(R.drawable.bt_right);
             } else {
@@ -72,6 +75,7 @@ public class TabButton extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        Log.d("TTAAGG", "进入执行onLayout");
         if (!changed) return;
         int count = getChildCount();
         int left = 0;
@@ -79,6 +83,7 @@ public class TabButton extends LinearLayout {
             ItemView child = (ItemView) getChildAt(i);
             child.setText(tabsStr[i]);
             child.layout(left, 0, left + child.getMeasuredWidth(), getHeight());
+            Log.d("getMeasuredWidth", left + "" + 0 + "" + left + child.getMeasuredWidth() + "" + getHeight());
             child.setGravity(Gravity.CENTER);
             left += child.getMeasuredWidth();
         }
