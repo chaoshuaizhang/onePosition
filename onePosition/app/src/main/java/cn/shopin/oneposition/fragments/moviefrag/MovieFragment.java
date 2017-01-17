@@ -55,7 +55,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sparseArray = new SparseArray<>();
+        fragManager = getActivity().getSupportFragmentManager();
         inidFrags();
         Log.d("TAG", "MovieFragment onCreate");
     }
@@ -69,32 +69,34 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      * 这个方法中我们主要是通过布局填充器获取fragment布局.
      * Nullable 表示可以为空-即：可传空值
      */
-    View view;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("TAG", "MovieFragment onCreateView");
-//        if (view == null) {
+        View view = inflater.inflate(R.layout.frag_movie, null);
+        /*if (view == null) {
             view = inflater.inflate(R.layout.frag_movie, null);
-//        }
-//        ViewGroup parentView = (ViewGroup) view.getParent();
-//        if (parentView != null) {
-//            parentView.removeView(view);
-//        }
+        }
+        ViewGroup parentView = (ViewGroup) view.getParent();
+        if (parentView != null) {
+            parentView.removeView(view);
+            return view;
+        }*/
         fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
         //定义hover item
         final ItemView item1 = new ItemView(getActivity());
-        ItemView item2 = new ItemView(getActivity());
-        ItemView item3 = new ItemView(getActivity());
+        item1.setTag("left");
+        final ItemView item2 = new ItemView(getActivity());
+        item2.setTag("center");
+        final ItemView item3 = new ItemView(getActivity());
+        item3.setTag("right");
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                sparseArray.put(4, collectionFrag);
-//                resetSelectedTab(view);
-                Toast.makeText(getActivity(), "1", Toast.LENGTH_SHORT).show();
-                item1.setEnabled(false);
+                item1.setSelected(true);
+                item2.setSelected(false);
+                item3.setSelected(false);
                 if (sparseArray.get(1).isAdded()) {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(1)).commit();
                 } else {
@@ -106,10 +108,11 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         item2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                sparseArray.put(4, nostalgicFrag);
-                Toast.makeText(getActivity(), "2", Toast.LENGTH_SHORT).show();
+                item1.setSelected(false);
+                item2.setSelected(true);
+                item3.setSelected(false);
                 if (sparseArray.get(2).isAdded()) {
-                    fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(2)).commit();
+                    fragManager.beginTransaction().show(sparseArray.get(2)).commit();
                 } else {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(2)).commit();
                 }
@@ -119,50 +122,41 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         item3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                sparseArray.put(4, moviePieceFrag);
-                Toast.makeText(getActivity(), "3", Toast.LENGTH_SHORT).show();
+                item1.setSelected(false);
+                item2.setSelected(false);
+                item3.setSelected(true);
                 if (sparseArray.get(3).isAdded()) {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(3)).commit();
                 } else {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(3)).commit();
                 }
                 sparseArray.put(4, sparseArray.get(3));
+                Toast.makeText(getActivity(), fragManager.getFragments().size() + " " + fragContainer.getChildCount(), Toast.LENGTH_SHORT).show();
             }
         });
-        tabButton.addView(item1);
-        tabButton.addView(item2);
-        tabButton.addView(item3);
+        if (tabButton.getChildCount() == 0) {
+            tabButton.addView(item1);
+            tabButton.addView(item2);
+            tabButton.addView(item3);
+        }
         initViewPager();
         initData();
-        Log.d("TTAAGG", fragManager.getFragments().size() + "加载个数---Before");
         if (sparseArray.get(4).isAdded()) {
-            fragManager.beginTransaction().show(sparseArray.get(4)).commit();
+            fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(4)).commit();
         } else {
             fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(4)).commit();
         }
-        Log.d("TTAAGG", fragManager.getFragments().size() + "加载个数---After");
         return view;
-    }
-
-    private void resetSelectedTab(View view) {
-        if (selectedTab == view) {//已经是被选中了
-
-        } else {
-            selectedTab.setEnabled(true);
-            selectedTab = view;
-            selectedTab.setEnabled(false);
-        }
     }
 
     /**
      * 初始化Frags
      */
     private void inidFrags() {
-        fragManager = getFragmentManager();
-        Log.d("TTAAGG", fragManager.getFragments().size() + "     +++++");
         collectionFrag = new CollectionFrag();
         nostalgicFrag = new NostalgicFrag();
         moviePieceFrag = new MoviePieceFrag();
+        sparseArray = new SparseArray<>();
         sparseArray.put(1, collectionFrag);
         sparseArray.put(2, nostalgicFrag);
         sparseArray.put(3, moviePieceFrag);
@@ -203,5 +197,10 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     //进行数据加载
     public void initData() {
 //        mPresenter.getBanners();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

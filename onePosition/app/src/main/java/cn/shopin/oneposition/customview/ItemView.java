@@ -16,7 +16,6 @@ public class ItemView extends TextView {
 
     public ItemView(Context context) {
         super(context);
-        setClickable(true);
         setTextColor(Color.BLACK);
     }
 

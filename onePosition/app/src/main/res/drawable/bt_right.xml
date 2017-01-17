@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/colorPrimary" android:state_pressed="false" />
-    <item android:drawable="@color/colorAccent" android:state_pressed="true" />
-    <item android:drawable="@color/colorPrimary" android:state_checked="true" />
-    <item android:drawable="@color/colorAccent" android:state_checked="false" />
+<item android:state_selected="true">
+    <shape>
+        <corners android:bottomRightRadius="10dp" android:topRightRadius="10dp" />
+        <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
+    </shape>
+</item>
+<item android:state_selected="false">
+    <shape>
+        <corners android:bottomRightRadius="10dp" android:topRightRadius="10dp" />
+        <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
+    </shape>
+</item>
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:bottomRightRadius="10dp" android:topRightRadius="10dp" />
+            <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
+        </shape>
+    </item>
+    <item android:state_pressed="false">
+        <shape>
+            <corners android:bottomRightRadius="10dp" android:topRightRadius="10dp" />
+            <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
+        </shape>
+    </item>
+
 </selector>
