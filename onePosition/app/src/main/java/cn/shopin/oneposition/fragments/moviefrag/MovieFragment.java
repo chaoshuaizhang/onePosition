@@ -30,6 +30,7 @@ import cn.shopin.oneposition.fragments.moviefrag.piecerate.MoviePieceFrag;
  * Created by zcs on 2016/12/5.
  *
  * @desc fragmentTabHost只会加载第一个
+ * http://blog.csdn.net/likuan0214/article/details/52982124
  */
 public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView {
     private FrameLayout fragContainer;
