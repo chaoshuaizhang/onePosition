@@ -44,6 +44,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     private TabButton tabButton;
     private FragmentManager fragManager;
     private View selectedTab;
+    private static int selectedIndex = 1;
 
     /**
      * fragment初始化的时候调用，我们通常在onCreate方法中使
@@ -56,9 +57,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragManager = getActivity().getSupportFragmentManager();
         inidFrags();
-        Log.d("TAG", "MovieFragment onCreate");
     }
 
     @Override
@@ -70,27 +69,31 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      * 这个方法中我们主要是通过布局填充器获取fragment布局.
      * Nullable 表示可以为空-即：可传空值
      */
+    View view;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_movie, null);
-        /*if (view == null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.frag_movie, null);
         }
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (parentView != null) {
             parentView.removeView(view);
             return view;
-        }*/
+        }
+        fragManager = getChildFragmentManager();
         fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
         //定义hover item
         final ItemView item1 = new ItemView(getActivity());
+        item1.setFragment(sparseArray.get(1));
         item1.setTag("left");
         final ItemView item2 = new ItemView(getActivity());
+        item2.setFragment(sparseArray.get(2));
         item2.setTag("center");
         final ItemView item3 = new ItemView(getActivity());
+        item3.setFragment(sparseArray.get(3));
         item3.setTag("right");
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +116,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
                 item2.setSelected(true);
                 item3.setSelected(false);
                 if (sparseArray.get(2).isAdded()) {
-                    fragManager.beginTransaction().show(sparseArray.get(2)).commit();
+                    fragManager.beginTransaction().hide(sparseArray.get(4)).show(sparseArray.get(2)).commit();
                 } else {
                     fragManager.beginTransaction().hide(sparseArray.get(4)).add(R.id.frag_container, sparseArray.get(2)).commit();
                 }
@@ -165,14 +168,14 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     }
 
     private void initViewPager() {
-        imgs = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            ImageView img = new ImageView(getActivity());
-            img.setImageResource(R.mipmap.vp);
-            imgs.add(img);
-        }
-        pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
-        viewPager.setAdapter(pagerAdapter);
+//        imgs = new ArrayList<>();
+//        for (int i = 0; i < 3; i++) {
+//            ImageView img = new ImageView(getActivity());
+//            img.setImageResource(R.mipmap.vp);
+//            imgs.add(img);
+//        }
+//        pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
+//        viewPager.setAdapter(pagerAdapter);
     }
 
     @Override

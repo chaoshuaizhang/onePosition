@@ -2,23 +2,22 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
         <shape>
-            <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
+            <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
         </shape>
     </item>
     <item android:state_selected="false">
         <shape>
-            <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
+            <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
-
-            <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
+            <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
         </shape>
     </item>
     <item android:state_pressed="false">
         <shape>
-            <gradient android:endColor="@color/colorWhite" android:startColor="@color/colorWhite" />
+            <gradient android:endColor="@color/colorBlue" android:startColor="@color/colorBlue" />
         </shape>
     </item>
 </selector>

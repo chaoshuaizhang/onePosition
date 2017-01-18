@@ -14,11 +14,53 @@ import cn.shopin.oneposition.R;
  * Created by zcs on 2016/12/11.
  */
 public class CollectionFrag extends Fragment {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("onCreateView", "---onCreate---");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_collection, null);
         Log.d("onCreateView", "---onCreateView---");
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("onCreateView", "---onActivityCreated---");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("onCreateView", "---onStart---");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("onCreateView", "---onResume---");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("onCreateView", "---onPause---");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("onCreateView", "---onStop---");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("onCreateView", "---onDestroyView---");
     }
 }

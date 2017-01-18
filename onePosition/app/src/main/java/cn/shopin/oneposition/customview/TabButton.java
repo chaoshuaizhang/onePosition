@@ -2,6 +2,7 @@ package cn.shopin.oneposition.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,7 +16,7 @@ import cn.shopin.oneposition.R;
  * Error:Execution failed for task ':app:processDebugResources'.
  * > com.android.ide.common.process.ProcessException: org.gradle.process.internal.ExecException: Process 'command 'D:\23.0.0sdk\23.0.0sdk\build-tools\24.0.0\aapt.exe'' finished with non-zero exit value 1
  */
-public class TabButton extends LinearLayout{
+public class TabButton extends LinearLayout {
     private String[] tabsStr;
 
     public TabButton(Context context) {
@@ -86,6 +87,15 @@ public class TabButton extends LinearLayout{
             child.setGravity(Gravity.CENTER);
             left += child.getMeasuredWidth();
         }
+    }
+
+    public Fragment getFragByClick(int index) {
+        for (int i = 0; i < getChildCount(); i++) {
+            getChildAt(i).setSelected(false);
+        }
+        getChildAt(index).setSelected(true);
+        ItemView selectedItem = (ItemView) getChildAt(index);
+        return selectedItem.getFragment();
     }
 //
 //    @Override
