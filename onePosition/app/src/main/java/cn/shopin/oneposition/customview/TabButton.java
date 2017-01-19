@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.fragments.moviefrag.MovieFragment;
 
 /**
  * Created by zcs on 2016/12/12.
@@ -18,13 +20,16 @@ import cn.shopin.oneposition.R;
  */
 public class TabButton extends LinearLayout {
     private String[] tabsStr;
+    private Context mContext;
 
     public TabButton(Context context) {
         super(context);
+        mContext = context;
     }
 
     public TabButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TabButton);
         String content = typedArray.getString(R.styleable.TabButton_tab_content);
         tabsStr = content.split(",");
@@ -33,7 +38,7 @@ public class TabButton extends LinearLayout {
 
     public TabButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        mContext = context;
     }
 
     private int childCounts = 0;
@@ -89,31 +94,20 @@ public class TabButton extends LinearLayout {
         }
     }
 
-    public Fragment getFragByClick(int index) {
+    public void getFragByClick(int index) {
         for (int i = 0; i < getChildCount(); i++) {
             getChildAt(i).setSelected(false);
         }
         getChildAt(index).setSelected(true);
         ItemView selectedItem = (ItemView) getChildAt(index);
-        return selectedItem.getFragment();
     }
-//
-//    @Override
-//    public void onClick(View view) {
-//        switch ((String) view.getTag()) {
-//            case "left":
-//                Log.d("onClick", "left");
-//                break;
-//            case "right":
-//                Log.d("onClick", "right");
-//                break;
-//            case "center":
-//                Log.d("onClick", "center");
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+
+    public void resetSelectedIndex(int index) {
+        index--;
+        for (int i = 0; i < getChildCount(); i++) {
+            getChildAt(i).setSelected(i == index);
+        }
+    }
 }
 
 /**

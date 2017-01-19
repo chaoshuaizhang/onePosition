@@ -1,5 +1,8 @@
 package cn.shopin.oneposition.fragments.moviefrag;
 
+import java.util.List;
+
+import cn.shopin.oneposition.entity.movie.BannerDetailEntity;
 import cn.shopin.oneposition.mvpbase.BaseModel;
 import cn.shopin.oneposition.mvpbase.BasePresenter;
 import cn.shopin.oneposition.mvpbase.BaseView;
@@ -15,6 +18,12 @@ public interface MovieContract {
     }
 
     interface IMovieView extends BaseView {
+        /**
+         * 得到banner数据
+         *
+         * @param lists
+         */
+        void getBannerData(List<BannerDetailEntity> lists);
     }
 
     // TODO: 2016/12/18 至于定义成接口还是抽象类还有待考虑

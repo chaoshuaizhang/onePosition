@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtil {
     private static Retrofit retrofit = null;
 
-    public static Retrofit getRetrofitInstnce(int tag) {
+    private static Retrofit getRetrofitInstnce(int tag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new MyInter())
                 .connectTimeout(30, TimeUnit.SECONDS)//设置链接超时
@@ -31,12 +31,16 @@ public class RetrofitUtil {
                 .build();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().client(okHttpClient)
-                    .baseUrl(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE))
+                    .baseUrl(EnumServerMap.getBaseUrlByTag(tag))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())//
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
+    }
+
+    public static <S> S createService(Class<S> mClass, int tag) {
+        return getRetrofitInstnce(tag).create(mClass);
     }
 }
 
