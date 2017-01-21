@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF">
-
+        <!--layout_scrollFlags可以控制向下滑动是否立即显示viewpager:enterAlways立即显示-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,7 +19,9 @@
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/colorAccent">
+                android:background="@color/colorAccent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6">
 
             </android.support.v4.view.ViewPager>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -45,3 +47,4 @@
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
+<!--http://www.open-open.com/lib/view/open1438265746378.html-->
