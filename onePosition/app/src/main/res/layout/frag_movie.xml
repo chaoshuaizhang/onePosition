@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/colorPrimary">
+                android:background="@color/colorAccent">
 
             </android.support.v4.view.ViewPager>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <cn.shopin.oneposition.customview.TabButton
+            android:id="@+id/bt_hovertab"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            app:tab_content="收藏,怀旧,排片" />
+    </android.support.design.widget.AppBarLayout>
 
-                <cn.shopin.oneposition.customview.TabButton
-                    android:id="@+id/bt_hovertab"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    app:tab_content="收藏,怀旧,排片" />
-            </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <FrameLayout
-                android:id="@+id/frag_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/frag_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            </FrameLayout>
+        </FrameLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
