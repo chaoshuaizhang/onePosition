@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="viewpager" type="id"/>
+    <item name="frag_container" type="id"/>
+    <item name="bt_hovertab" type="id"/>
+    <item name="listview" type="id"/>
+    <item name="tabhost" type="id"/>
+
+</resources>

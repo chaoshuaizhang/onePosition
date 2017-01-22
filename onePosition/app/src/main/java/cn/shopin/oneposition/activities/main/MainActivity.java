@@ -37,6 +37,8 @@ public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPr
         super.onCreate(savedInstanceState);
         Log.d("TAG", "MainActivity onCreate");
         setContentView(R.layout.activity_main);
+        Log.d("NestedScrolling", String.valueOf(getWindowManager().getDefaultDisplay().getHeight()));
+
         initData();
         initView();
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -211,9 +212,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         }
         pagerAdapter.notifyDataSetChanged();
         for (int i = 0; i < dataList.size(); i++) {
-            Log.d("TTTAAAGGG", EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic());
 //            Glide.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).into(imgs.get(i));
-            Picasso.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).into(imgs.get(i));
         }
     }
 }
