@@ -2,6 +2,7 @@ package cn.shopin.oneposition.fragments.moviefrag;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.ScaleInTransformer;
 import cn.shopin.oneposition.adapter.ViewPagerAdapter;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.customview.ItemView;
@@ -33,10 +36,12 @@ import cn.shopin.oneposition.fragments.moviefrag.nostalgic.NostalgicFrag;
 import cn.shopin.oneposition.fragments.moviefrag.piecerate.MoviePieceFrag;
 import cn.shopin.oneposition.util.EnumServerMap;
 
+import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+
 /**
  * Created by zcs on 2016/12/5.
  */
-public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView, View.OnClickListener {
+public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView, View.OnClickListener, ViewPager.OnPageChangeListener {
     private FrameLayout fragContainer;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
@@ -99,6 +104,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      * 初始化Frags
      */
     private void inidFrags() {
+        //切换时：点击时子Frag才加载--只执行一次onCreate方法，onCreateView方法会重新执行
         collectionFrag = new CollectionFrag();
         nostalgicFrag = new NostalgicFrag();
         moviePieceFrag = new MoviePieceFrag();
@@ -119,6 +125,9 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
             ImageView img = new ImageView(getActivity());
             imgs.add(img);
         }
+        viewPager.setPageMargin(20);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setPageTransformer(true, new ScaleInTransformer());
         pagerAdapter.notifyDataSetChanged();
     }
 
@@ -163,11 +172,13 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         item1.setOnClickListener(this);
         item2.setOnClickListener(this);
         item3.setOnClickListener(this);
+        viewPager.addOnPageChangeListener(this);
     }
 
     //进行数据加载
     public void initData() {
         dataList = new ArrayList<>();
+        //得到banner数据
         mPresenter.getBanners();
     }
 
@@ -199,7 +210,8 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     public void getBannerData(List<BannerDetailEntity> lists) {
         dataList.clear();
         dataList.addAll(lists);
-
+        dataList.add(0, dataList.get(dataList.size() - 1));
+        dataList.add(dataList.size(), dataList.get(1));
         if (dataList.size() > imgs.size()) {
             for (int i = imgs.size(); i < dataList.size(); i++) {
                 ImageView img = new ImageView(getActivity());
@@ -211,8 +223,33 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
             }
         }
         pagerAdapter.notifyDataSetChanged();
+        viewPager.setCurrentItem(1, false);
         for (int i = 0; i < dataList.size(); i++) {
+            Log.d("TTTAAAGGG", EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic());
 //            Glide.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).into(imgs.get(i));
+            Picasso.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).placeholder(R.mipmap.ic_launcher).fit().centerCrop().into(imgs.get(i));
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        xposition = position;
+    }
+
+    int xposition = 1;
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            if (xposition == 0) {
+                xposition = dataList.size() - 2;
+            } else if (xposition == dataList.size() - 1) {
+                xposition = 1;
+            }
         }
     }
 }

@@ -2,6 +2,8 @@ package cn.shopin.oneposition.fragments.moviefrag;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.shopin.oneposition.api.MovieApi;
@@ -31,6 +33,7 @@ public class MovieModel extends BaseObserver implements MovieContract.IMovieMode
     public void getBanners() {
         MovieApi movieApi = RetrofitUtil.createService(MovieApi.class, Cans.TAG_MOVIE);
         movieApi.getTopBanner("0", "10", "1", "0", "0", "1", "-1")
+                // TODO: 2017/2/8 普通banner 和 广告 对象不一样 
 //                .mergeWith(movieApi.getTopADBanner("0", "0", "10", "0"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

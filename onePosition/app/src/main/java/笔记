@@ -1,0 +1,1 @@
+1、切换底部的FragmentTabHost按钮，各个Fragment会destroy,因为重用了view，所以会保存上次访问的位置

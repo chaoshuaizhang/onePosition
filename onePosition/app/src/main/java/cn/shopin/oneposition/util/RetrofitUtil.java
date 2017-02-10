@@ -48,7 +48,7 @@ class MyInter implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();
-        Log.d("TAG", oldRequest.url().toString());
+        Log.d("TTAAAGG", "oldRequest : "+oldRequest.url().toString());
         return chain.proceed(oldRequest);
     }
 }

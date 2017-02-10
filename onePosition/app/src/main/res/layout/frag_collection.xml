@@ -2,14 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFA"
+    android:gravity="center"
     android:orientation="vertical">
-
     <cn.shopin.oneposition.customview.MyListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </cn.shopin.oneposition.customview.MyListView>
-
+        android:layout_height="match_parent"></cn.shopin.oneposition.customview.MyListView>
 </LinearLayout>

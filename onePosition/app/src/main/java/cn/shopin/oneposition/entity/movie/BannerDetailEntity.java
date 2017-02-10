@@ -42,7 +42,7 @@ public class BannerDetailEntity {
     private int category;
     private int commentcount;
     private int sharecount;
-    private int prize;
+    private float prize;
     private int wantwatchnums;
     private int unwantwatchnums;
     private int picsCount;
@@ -178,11 +178,11 @@ public class BannerDetailEntity {
         this.sharecount = sharecount;
     }
 
-    public int getPrize() {
+    public float getPrize() {
         return prize;
     }
 
-    public void setPrize(int prize) {
+    public void setPrize(float prize) {
         this.prize = prize;
     }
 

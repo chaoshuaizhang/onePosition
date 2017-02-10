@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.shopin.oneposition.customview.CircleProgressView
+        android:id="@+id/circle_progressview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:circleColor="@color/colorAccent"
+        app:radius="20dp"
+        app:ringColor="@color/colorBlue"
+        app:strokeWidth="2dp"
+        app:xCenter="30dp"
+        app:yCenter="30dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="radio"
-        />
+        android:text="radio" />
 </RelativeLayout>

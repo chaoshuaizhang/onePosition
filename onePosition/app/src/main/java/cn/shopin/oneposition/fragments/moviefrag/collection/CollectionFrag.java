@@ -24,7 +24,7 @@ public class CollectionFrag extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("onCreateView", "---onCreate---");
+        Log.d("CollectionFrag", "---onCreate---");
     }
 
     @Nullable
@@ -33,48 +33,48 @@ public class CollectionFrag extends Fragment {
         View view = inflater.inflate(R.layout.frag_collection, null);
         listView = (ListView) view.findViewById(R.id.listview);
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < 36; i++) {
-            list.add("TAG --> " + i);
+        for (int i = 0; i < 35; i++) {
+            list.add("--> " + i);
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(arrayAdapter);
-        Log.d("onCreateView", "---onCreateView---");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+        Log.d("CollectionFrag", "---onCreateView---");
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("onCreateView", "---onActivityCreated---");
+        Log.d("CollectionFrag", "---onActivityCreated---");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("onCreateView", "---onStart---");
+        Log.d("CollectionFrag", "---onStart---");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("onCreateView", "---onResume---");
+        Log.d("CollectionFrag", "---onResume---");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("onCreateView", "---onPause---");
+        Log.d("CollectionFrag", "---onPause---");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("onCreateView", "---onStop---");
+        Log.d("CollectionFrag", "---onStop---");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("onCreateView", "---onDestroyView---");
+        Log.d("CollectionFrag", "---onDestroyView---");
     }
 }
