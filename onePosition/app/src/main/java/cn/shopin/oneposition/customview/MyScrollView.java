@@ -41,7 +41,7 @@ public class MyScrollView extends ScrollView {
         mScroller = new OverScroller(context);
     }
 
-    @Override
+/*    @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         mTop = findViewById(R.id.viewpager);
@@ -57,5 +57,11 @@ public class MyScrollView extends ScrollView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }*/
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        getParent().requestDisallowInterceptTouchEvent(true);
+        return super.onTouchEvent(ev);
     }
 }
