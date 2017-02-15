@@ -1,5 +1,6 @@
 package cn.shopin.oneposition.fragments.heartfrag;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,29 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.ScaleInTransformer;
 import cn.shopin.oneposition.adapter.ViewPagerAdapter;
+import cn.shopin.oneposition.customview.CircleImageView;
 
 /**
  * Created by zcs on 2016/12/5.
  */
 public class HeartFragment extends Fragment {
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("TAG", "HeartFragment onCreate");
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("TAG", "HeartFragment onActivityCreated");
-    }
-
+    private CircleImageView circleImageView;
     private List<ImageView> imgs;
 
     @Nullable
@@ -41,19 +34,14 @@ public class HeartFragment extends Fragment {
         Log.d("TAG", "HeartFragment onCreateView");
         View view = inflater.inflate(R.layout.frag_heart, null);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.circle_imageview);
+        Glide.with(getActivity()).load("http://img3.duitang.com/uploads/item/201408/25/20140825082917_LaGy4.thumb.224_0.jpeg").asBitmap().into(circleImageView);
         imgs = new ArrayList<>();
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
         viewPager.setAdapter(pagerAdapter);
-        for (int i = 0; i < 3; i++) {
-            ImageView img = new ImageView(getActivity());
-            img.setImageResource(R.mipmap.vp);
-            imgs.add(img);
-        }
-        viewPager.setPageMargin(20);
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setPageTransformer(true, new ScaleInTransformer());
-        pagerAdapter.notifyDataSetChanged();
         return view;
     }
+
+
 
 }
