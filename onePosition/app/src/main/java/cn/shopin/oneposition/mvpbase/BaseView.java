@@ -7,15 +7,15 @@ public interface BaseView {
     /**
      * 初始化view
      */
-//    void initView();
+    void initView();
 
     /**
      * 初始化监听器
      */
-//    void initListener();
+    void initListener();
 
     /**
      * 初始化数据操作
      */
-//    void initData();
+    void initData();
 }

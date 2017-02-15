@@ -9,6 +9,7 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
 
@@ -16,8 +17,29 @@
             android:id="@+id/circle_imageview"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/img_default_head_pic"
-            app:outCircleColor="@color/colorGray" />
+            app:outCircleColor="@color/colorGray"
+            app:outCircleWidth="2dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@drawable/search_text_bg"
+            android:drawableLeft="@drawable/icon_search"
+            android:gravity="center"
+            android:hint="请输入关键字"
+            android:paddingLeft="10dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="客服" />
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
