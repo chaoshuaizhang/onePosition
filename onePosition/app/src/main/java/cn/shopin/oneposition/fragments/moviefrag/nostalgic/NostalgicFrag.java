@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,11 +18,10 @@ import java.util.List;
 
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.adapter.RecyclerAdapter;
-import cn.shopin.oneposition.adapter.RecyclerAdapter1;
 import cn.shopin.oneposition.api.MovieApi;
 import cn.shopin.oneposition.constants.Cans;
-import cn.shopin.oneposition.customview.MyListView;
 import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.util.DateUtil;
 import cn.shopin.oneposition.util.RetrofitUtil;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,6 +38,8 @@ public class NostalgicFrag extends Fragment {
     private List<MoviePieceEntity> dataList;
     private int firstVisiblePosition = 0;
     private int lastVisiblePosition = 0;
+    private String timeStr = "0";
+    private boolean loadMore = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,36 +52,56 @@ public class NostalgicFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
+            loadMore = true;
             view = inflater.inflate(R.layout.frag_nostalgic, null);
+        } else {
+            loadMore = false;
         }
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (parentView != null) {
             parentView.removeView(view);
             return view;
         }
+        initView();
+        initData();
+        return view;
+    }
+
+    private void initView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.addOnScrollListener(new RecyclerOnScrollListener());
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        // TODO: 2017/2/10 解决recyclerview滑动卡顿 
+        // TODO: 2017/2/10 解决recyclerview滑动卡顿
         layoutManager.setSmoothScrollbarEnabled(true);
         layoutManager.setAutoMeasureEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerAdapter = new RecyclerAdapter(this.getActivity(), dataList);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addOnScrollListener(new RecyclerOnScrollListener());
-        initData();
-        return view;
+        recyclerAdapter.setOnItemClick(new RecyclerAdapter.setclickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (position == dataList.size()) {
+                    timeStr = DateUtil.getSubDate(dataList.get(position - 1).getCreatetime());
+                    Toast.makeText(getActivity(), timeStr, Toast.LENGTH_SHORT).show();
+                    loadMore = true;
+                    initData();
+                }
+            }
+        });
     }
 
     private void init() {
         dataList = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(this.getActivity(), dataList);
     }
 
     private void initData() {
+        if (!loadMore) {
+            return;
+        }
         MovieApi movieApi = RetrofitUtil.createService(MovieApi.class, Cans.TAG_MOVIE);
-        movieApi.getMoviePiece("0", "10", "2", "0", "39")
+        movieApi.getMoviePiece(timeStr, "10", "2", "0", "39")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MoviePieceEntity>>() {
@@ -99,9 +115,9 @@ public class NostalgicFrag extends Fragment {
 
                     @Override
                     public void onNext(List<MoviePieceEntity> moviePieceEntities) {
-                        dataList.clear();
                         dataList.addAll(moviePieceEntities);
                         recyclerAdapter.notifyDataSetChanged();
+                        loadMore = false;
                     }
                 });
     }
@@ -113,17 +129,14 @@ public class NostalgicFrag extends Fragment {
             LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
             firstVisiblePosition = manager.findFirstCompletelyVisibleItemPosition();
             if (firstVisiblePosition == 0) {
-                Log.d("TTTASD", "滑到顶部了");
             }
             lastVisiblePosition = manager.findLastCompletelyVisibleItemPosition();
             if (lastVisiblePosition == dataList.size() - 1) {
-                Log.d("TTTASD", "滑到底部了");
             }
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, 200);
         }
     }
 }
