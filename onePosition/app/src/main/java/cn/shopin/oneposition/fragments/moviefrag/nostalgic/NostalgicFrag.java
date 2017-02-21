@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +82,10 @@ public class NostalgicFrag extends Fragment {
             @Override
             public void onItemClick(int position) {
                 if (position == dataList.size()) {
+                    View view = recyclerView.getChildAt(position);
                     timeStr = DateUtil.getSubDate(dataList.get(position - 1).getCreatetime());
-                    Toast.makeText(getActivity(), timeStr, Toast.LENGTH_SHORT).show();
                     loadMore = true;
+                    recyclerAdapter.setLaoding(loadMore);
                     initData();
                 }
             }
@@ -107,6 +107,7 @@ public class NostalgicFrag extends Fragment {
                 .subscribe(new Observer<List<MoviePieceEntity>>() {
                     @Override
                     public void onCompleted() {
+
                     }
 
                     @Override
@@ -118,6 +119,8 @@ public class NostalgicFrag extends Fragment {
                         dataList.addAll(moviePieceEntities);
                         recyclerAdapter.notifyDataSetChanged();
                         loadMore = false;
+                        initData();
+                        recyclerAdapter.setLaoding(loadMore);
                     }
                 });
     }

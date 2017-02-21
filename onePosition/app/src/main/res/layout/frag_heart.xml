@@ -24,6 +24,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/img_default_head_pic"
+            android:onClick="text"
             app:outCircleColor="@color/colorGray"
             app:outCircleWidth="2dp" />
 
@@ -66,14 +67,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"></android.support.v4.view.ViewPager>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/gridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                <include layout="@layout/heart_type_tag" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="170dp"
                     android:background="@color/colorAccent"
                     android:orientation="horizontal"
                     android:weightSum="5">
@@ -82,21 +80,27 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/ic_launcher" />
+                            android:id="@+id/counselor1_avatar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/counselor1_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
                             android:text="name" />
 
                         <TextView
+                            android:id="@+id/counselor1_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
                             android:text="最佳咨询师" />
 
                     </LinearLayout>
@@ -104,7 +108,7 @@
                     <TextView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/colorBlack" />
+                        android:background="@color/colorGray" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -115,14 +119,27 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:background="@color/colorGreen">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"></LinearLayout>
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@mipmap/ic_launcher" />
+                                android:id="@+id/counselor2_avatar"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
 
                         </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorGray" />
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -132,24 +149,75 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:background="@color/colorBlue"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
 
                                 <ImageView
+                                    android:id="@+id/counselor3_avatar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@mipmap/ic_launcher" />
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center">
+
+                                    <TextView
+                                        android:id="@+id/counselor3_name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:text="姓名" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="国二" />
+                                </LinearLayout>
 
                             </LinearLayout>
+
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorGray" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:background="@color/colorBlue"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
 
                                 <ImageView
+                                    android:id="@+id/counselor4_avatar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@mipmap/ic_launcher" />
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center">
+
+                                    <TextView
+                                        android:id="@+id/counselor4_name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:text="姓名" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="国二" />
+                                </LinearLayout>
 
                             </LinearLayout>
 

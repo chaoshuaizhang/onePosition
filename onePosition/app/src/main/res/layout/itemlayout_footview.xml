@@ -7,7 +7,28 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/click_loadmore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击加载更多" />
+        android:text="点击加载更多"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/loadmore_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progress_style" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="正在加载" />
+    </LinearLayout>
 </LinearLayout>

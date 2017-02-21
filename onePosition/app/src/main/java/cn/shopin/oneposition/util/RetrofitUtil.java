@@ -1,11 +1,11 @@
 package cn.shopin.oneposition.util;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import cn.shopin.oneposition.constants.Cans;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 技能点：okhttp缓存策略
  */
 public class RetrofitUtil {
-    private static Retrofit retrofit = null;
+    private static SparseArray<Retrofit> retrofits = new SparseArray<>();
 
     private static Retrofit getRetrofitInstnce(int tag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -29,14 +29,15 @@ public class RetrofitUtil {
                 .connectTimeout(30, TimeUnit.SECONDS)//设置链接超时
                 .readTimeout(30, TimeUnit.SECONDS)//设置读取超时
                 .build();
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder().client(okHttpClient)
+        if (retrofits.get(tag) == null) {
+            Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)
                     .baseUrl(EnumServerMap.getBaseUrlByTag(tag))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+            retrofits.put(tag, retrofit);
         }
-        return retrofit;
+        return retrofits.get(tag);
     }
 
     public static <S> S createService(Class<S> mClass, int tag) {
@@ -48,7 +49,7 @@ class MyInter implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();
-        Log.d("TTAAAGG", "oldRequest : "+oldRequest.url().toString());
+        Log.d("TTAAAGG", "oldRequest : " + oldRequest.url().toString());
         return chain.proceed(oldRequest);
     }
 }

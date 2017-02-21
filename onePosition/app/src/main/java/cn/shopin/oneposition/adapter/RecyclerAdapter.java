@@ -2,19 +2,17 @@ package cn.shopin.oneposition.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import cn.shopin.oneposition.Myapplication;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.customview.CircleProgressView;
@@ -37,6 +35,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private List<MoviePieceEntity> dataList;
     private setclickListener setclickListener;
+    private View footView;
+    private LinearLayout loadMoreLayout;
+    private TextView clickToLoad;
 
     public RecyclerAdapter(Context mContext, List<MoviePieceEntity> list) {
         this.mContext = mContext;
@@ -74,8 +75,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new MyViewHolder(view);
                 break;
             case FOOT_VIEW:
-                view = mInflater.inflate(R.layout.itemlayout_footview, parent, false);
-                viewHolder = new MyViewHolder(view);
+                footView = mInflater.inflate(R.layout.itemlayout_footview, parent, false);
+                loadMoreLayout = (LinearLayout) footView.findViewById(R.id.loadmore_layout);
+                clickToLoad = (TextView) footView.findViewById(R.id.click_loadmore);
+                viewHolder = new MyViewHolder(footView);
                 break;
         }
         return viewHolder;
@@ -126,6 +129,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private boolean isFootView(int position) {
         return position == getItemCount() - 1;
+    }
+
+    public void setLaoding(boolean isLoad) {
+        if (isLoad && footView != null) {
+            clickToLoad.setVisibility(View.GONE);
+            loadMoreLayout.setVisibility(View.VISIBLE);
+        } else {
+            clickToLoad.setVisibility(View.VISIBLE);
+            loadMoreLayout.setVisibility(View.GONE);
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

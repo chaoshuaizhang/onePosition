@@ -41,14 +41,16 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:background="#00FF0000"
-                    android:text="这是一个主题，啦啦啦啦啦" />
+                    android:text="" />
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <cn.shopin.oneposition.customview.TabButton
             android:id="@+id/bt_hovertab"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             app:tab_content="收藏,怀旧,排片" />
     </android.support.design.widget.AppBarLayout>
 

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@color/colorGray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:baselineAligned="false"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/call"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/call_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@mipmap/home_talk"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+
+            <TextView
+                android:id="@+id/call_text_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/call_img"
+                android:text="我要倾诉"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/home_tag_bigtext" />
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="18dp"
+                android:layout_toRightOf="@id/call_text_big"
+                android:background="@mipmap/menu_hot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/call_text_big"
+                android:layout_toRightOf="@id/call_img"
+                android:text="把烦恼大声说出来"
+                android:textSize="@dimen/home_tag_smalltext" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/consult"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/consult_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@mipmap/home_consult"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+
+            <TextView
+                android:id="@+id/consult_text_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/consult_img"
+                android:text="我要咨询"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/home_tag_bigtext" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/consult_text_big"
+                android:layout_toRightOf="@id/consult_img"
+                android:text="找咨询师解开心结"
+                android:textSize="@dimen/home_tag_smalltext" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/free"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/free_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@mipmap/home_free"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+
+            <TextView
+                android:id="@+id/free_text_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/free_img"
+                android:text="免费体验"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/home_tag_bigtext" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/free_text_big"
+                android:layout_toRightOf="@id/free_img"
+                android:text="即刻体验专业咨询"
+                android:textSize="@dimen/home_tag_smalltext" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/psytest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/psytest_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@mipmap/home_psytest"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+
+            <TextView
+                android:id="@+id/psytest_text_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/psytest_img"
+                android:text="心理测试"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/home_tag_bigtext" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/psytest_text_big"
+                android:layout_toRightOf="@id/psytest_img"
+                android:text="10000人测试过"
+                android:textSize="@dimen/home_tag_smalltext" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
