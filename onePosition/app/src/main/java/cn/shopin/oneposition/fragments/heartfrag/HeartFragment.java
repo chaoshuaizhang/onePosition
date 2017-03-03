@@ -136,7 +136,7 @@ public class HeartFragment extends BaseMvpFragment<HeartContract.IHeartView, Hea
                     public void onNext(HomeConsults homeConsults) {
                         dataList.clear();
                         dataList.addAll(homeConsults.getResults());
-                        //此处用glide加载图片不清楚
+                        //此处用glide加载图片显示的不清楚
                         Picasso.with(getActivity()).load(dataList.get(0).getAvatar()).into(avatar1);
                         Picasso.with(getActivity()).load(dataList.get(1).getAvatar()).into(avatar2);
                         Picasso.with(getActivity()).load(dataList.get(2).getAvatar()).into(avatar3);
