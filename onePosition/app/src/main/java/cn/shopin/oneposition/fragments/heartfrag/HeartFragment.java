@@ -17,12 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.adapter.AdverViewAdapter;
 import cn.shopin.oneposition.adapter.ViewPagerAdapter;
 import cn.shopin.oneposition.api.HeartApi;
 import cn.shopin.oneposition.constants.Cans;
+import cn.shopin.oneposition.customview.AdverView;
 import cn.shopin.oneposition.customview.CircleImageView;
+import cn.shopin.oneposition.entity.heart.ActionLabelEntity;
 import cn.shopin.oneposition.entity.heart.ConsultsResultsEntity;
 import cn.shopin.oneposition.entity.heart.HomeConsults;
+import cn.shopin.oneposition.entity.heart.LabelResultsEntity;
 import cn.shopin.oneposition.fragments.BaseMvpFragment;
 import cn.shopin.oneposition.util.RetrofitUtil;
 import rx.Observer;
@@ -43,15 +47,19 @@ public class HeartFragment extends BaseMvpFragment<HeartContract.IHeartView, Hea
     private RelativeLayout freeView;
     private RelativeLayout psyTestView;
     private List<ConsultsResultsEntity> dataList;
+    private List<LabelResultsEntity> labelList;
     private ImageView avatar1;
     private ImageView avatar2;
     private ImageView avatar3;
     private ImageView avatar4;
+    private AdverView adverView;
+    private AdverViewAdapter adverViewAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataList = new ArrayList<>();
+        labelList = new ArrayList<>();
     }
 
     @Nullable
@@ -80,6 +88,8 @@ public class HeartFragment extends BaseMvpFragment<HeartContract.IHeartView, Hea
         consultView = (RelativeLayout) view.findViewById(R.id.consult);
         freeView = (RelativeLayout) view.findViewById(R.id.free);
         psyTestView = (RelativeLayout) view.findViewById(R.id.psytest);
+        adverView = (AdverView) view.findViewById(R.id.adverview);
+        adverViewAdapter = new AdverViewAdapter(labelList);
         avatar1 = (ImageView) view.findViewById(R.id.counselor1_avatar);
         avatar2 = (ImageView) view.findViewById(R.id.counselor2_avatar);
         avatar3 = (ImageView) view.findViewById(R.id.counselor3_avatar);
@@ -136,13 +146,40 @@ public class HeartFragment extends BaseMvpFragment<HeartContract.IHeartView, Hea
                     public void onNext(HomeConsults homeConsults) {
                         dataList.clear();
                         dataList.addAll(homeConsults.getResults());
-                        //此处用glide加载图片显示的不清楚
-                        Picasso.with(getActivity()).load(dataList.get(0).getAvatar()).into(avatar1);
-                        Picasso.with(getActivity()).load(dataList.get(1).getAvatar()).into(avatar2);
-                        Picasso.with(getActivity()).load(dataList.get(2).getAvatar()).into(avatar3);
-                        Picasso.with(getActivity()).load(dataList.get(3).getAvatar()).into(avatar4);
+                        setConsultsData();
                     }
                 });
+        heartApi.getActionLabels().subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ActionLabelEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ActionLabelEntity actionLabelEntity) {
+                        labelList.clear();
+                        labelList.addAll(actionLabelEntity.getResults());
+                        adverView.setAdapter(adverViewAdapter);
+                        adverView.start();
+                    }
+                });
+
+    }
+
+    private void setConsultsData() {
+        //此处用glide加载图片显示的不清楚
+        Picasso.with(getActivity()).load(dataList.get(0).getAvatar()).into(avatar1);
+        Picasso.with(getActivity()).load(dataList.get(1).getAvatar()).into(avatar2);
+        Picasso.with(getActivity()).load(dataList.get(2).getAvatar()).into(avatar3);
+        Picasso.with(getActivity()).load(dataList.get(3).getAvatar()).into(avatar4);
+
     }
 
     @Override

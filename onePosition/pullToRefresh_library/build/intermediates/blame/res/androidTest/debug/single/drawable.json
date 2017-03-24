@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\myprjs\\onePosition\\onePosition\\pullToRefresh_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\indicator_bg_bottom.xml",
+        "source": "D:\\myprjs\\onePosition\\onePosition\\pullToRefresh_library\\build\\intermediates\\bundles\\debug\\res\\drawable\\indicator_bg_bottom.xml"
+    },
+    {
+        "merged": "D:\\myprjs\\onePosition\\onePosition\\pullToRefresh_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\indicator_bg_top.xml",
+        "source": "D:\\myprjs\\onePosition\\onePosition\\pullToRefresh_library\\build\\intermediates\\bundles\\debug\\res\\drawable\\indicator_bg_top.xml"
+    }
+]

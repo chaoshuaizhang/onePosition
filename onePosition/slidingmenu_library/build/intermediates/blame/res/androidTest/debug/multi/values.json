@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\changePosition_app\\onePosition\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "outputFile": "D:\\myprjs\\onePosition\\onePosition\\slidingmenu_library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 999
                 },
                 "from": {
-                    "file": "D:\\changePosition_app\\onePosition\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "D:\\myprjs\\onePosition\\onePosition\\slidingmenu_library\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,

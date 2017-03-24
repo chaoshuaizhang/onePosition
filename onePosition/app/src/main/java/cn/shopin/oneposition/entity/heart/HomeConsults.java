@@ -2,12 +2,14 @@ package cn.shopin.oneposition.entity.heart;
 
 import java.util.List;
 
+import cn.shopin.oneposition.entity.BaseEntity;
+
 /**
  * Created by zcs on 2017/2/19.
  *
  * @desc
  */
-public class HomeConsults {
+public class HomeConsults extends BaseEntity {
 
     /**
      * errorCode : 0

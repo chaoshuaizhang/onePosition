@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-    <cn.shopin.oneposition.customview.MyListView
-        android:id="@+id/listview"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></cn.shopin.oneposition.customview.MyListView>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

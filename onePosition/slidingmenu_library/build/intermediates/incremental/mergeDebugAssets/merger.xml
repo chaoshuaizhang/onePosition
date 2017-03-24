@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\changePosition_app\onePosition\slidingmenu_library\assets"/><source path="D:\changePosition_app\onePosition\slidingmenu_library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\changePosition_app\onePosition\slidingmenu_library\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\myprjs\onePosition\onePosition\slidingmenu_library\assets"/><source path="D:\myprjs\onePosition\onePosition\slidingmenu_library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\myprjs\onePosition\onePosition\slidingmenu_library\src\debug\assets"/></dataSet></merger>

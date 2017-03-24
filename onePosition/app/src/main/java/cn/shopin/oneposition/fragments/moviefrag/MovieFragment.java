@@ -1,14 +1,20 @@
 package cn.shopin.oneposition.fragments.moviefrag;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -56,7 +62,17 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     private ItemView item1;
     private ItemView item2;
     private ItemView item3;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private CoordinatorLayout coordinatorlayout;
+    private NestedScrollView nestedScrollview;
     private static int selectedIndex = 1;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    };
 
     /**
      * fragment初始化的时候调用，我们通常在onCreate方法中使
@@ -128,6 +144,50 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         viewPager.setPageMargin(20);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setPageTransformer(true, new ScaleInTransformer());
+        nestedScrollview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d("getVisibility", "nestedScrollview---ACTION_DOWN---");
+                        Rect rect = new Rect();
+                        if (viewPager.getGlobalVisibleRect(rect)) {
+                            if (rect.height() > viewPager.getHeight() - 10) {
+                                Log.d("getVisibility", "---VISIBLE---");
+                                swipeRefreshLayout.setEnabled(true);
+                            } else {
+                                swipeRefreshLayout.setEnabled(false);
+                            }
+                        } else {
+                            swipeRefreshLayout.setEnabled(false);
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d("getVisibility", "viewPager---ACTION_DOWN---");
+                        Rect rect = new Rect();
+                        if (viewPager.getGlobalVisibleRect(rect)) {
+                            if (rect.height() > viewPager.getHeight() - 10) {
+                                Log.d("getVisibility", "---VISIBLE---");
+                                swipeRefreshLayout.setEnabled(true);
+                            } else {
+                                swipeRefreshLayout.setEnabled(false);
+                            }
+                        } else {
+                            swipeRefreshLayout.setEnabled(false);
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         pagerAdapter.notifyDataSetChanged();
     }
 
@@ -146,6 +206,14 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.sendEmptyMessageDelayed(0, 2000);
+            }
+        });
+        nestedScrollview = (NestedScrollView) view.findViewById(R.id.nestedScrollview);
         // TODO: 2017/1/19 防止执行onCreateView时，item再次创建
         if (tabButton.getChildCount() == 0) {
             item1 = new ItemView(getActivity());
@@ -223,12 +291,10 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
             }
         }
         pagerAdapter.notifyDataSetChanged();
-        viewPager.setCurrentItem(1, false);
         for (int i = 0; i < dataList.size(); i++) {
-            Log.d("TTTAAAGGG", EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic());
-//            Glide.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).into(imgs.get(i));
             Picasso.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).placeholder(R.mipmap.ic_launcher).fit().centerCrop().into(imgs.get(i));
         }
+        viewPager.setCurrentItem(xposition, false);
     }
 
     @Override
@@ -238,6 +304,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onPageSelected(int position) {
         xposition = position;
+
     }
 
     int xposition = 1;
@@ -250,6 +317,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
             } else if (xposition == dataList.size() - 1) {
                 xposition = 1;
             }
+            viewPager.setCurrentItem(xposition, false);
         }
     }
 }

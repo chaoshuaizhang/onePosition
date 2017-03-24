@@ -3,6 +3,17 @@
     package="cn.shopin.oneposition">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取wifi网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 获取sd卡写的权限，用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Myapplication"
@@ -20,7 +31,19 @@
         </activity>
         <activity android:name=".activities.BaseActivity" />
         <activity android:name=".activities.BaseMvpActivity" />
-        <activity android:name=".activities.welcome.WelcomeActivity"></activity>
+        <activity android:name=".activities.welcome.WelcomeActivity" />
+        <!--android:theme="@style/Theme.Slidr.Slidable"需要在设置SlidrConfig的activity中使用-->
+        <activity
+            android:name=".fragments.webdetail.MovieDetailActivity"
+            android:theme="@style/Theme.Slidr.Slidable" />
+        <activity android:name=".activities.AuthorizeActivity" />
+        <activity
+            android:name=".activities.AAAActivity"
+            android:theme="@style/Theme.Slidr.Slidable"></activity>
+        <activity android:name=".activities.BBBActivity"></activity>
+        <activity android:name=".activities.CCCActivity"></activity>
+        <meta-data android:value="58d36b761c5dd026fd001821" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Umeng" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

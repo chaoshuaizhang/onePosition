@@ -5,7 +5,7 @@ package cn.shopin.oneposition.entity;
  *
  * @desc 网络请求返回的对象
  */
-public class BaseResponse {
+public class BaseResponse extends BaseEntity {
     private String code;
     private String codeInfo;
     private String data;

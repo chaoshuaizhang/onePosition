@@ -1,11 +1,13 @@
 package cn.shopin.oneposition.entity.heart;
 
+import cn.shopin.oneposition.entity.BaseEntity;
+
 /**
  * Created by zcs on 2017/2/19.
  *
  * @desc
  */
-public class ConsultsResultsEntity {
+public class ConsultsResultsEntity extends BaseEntity {
     /**
      * userid : 7542
      * nickname : 曹华

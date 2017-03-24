@@ -8,7 +8,6 @@ import cn.shopin.oneposition.constants.Cans;
  * @desc 因为server地址不同，根据tag获得对应的url
  */
 public enum EnumServerMap {
-
     movie(Cans.TAG_MOVIE, "http://moviewapp.dazui.com"),
     heart(Cans.TAG_HEART, "http://api.xinliji.me"),
     live(Cans.TAG_LIVE, ""),

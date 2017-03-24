@@ -1,5 +1,7 @@
 package cn.shopin.oneposition.entity;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**

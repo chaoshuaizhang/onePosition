@@ -1,1 +1,7 @@
 1、切换底部的FragmentTabHost按钮，各个Fragment会destroy,因为重用了view，所以会保存上次访问的位置
+2、关于intent七大属性的回顾：
+   Intent七大属性是指Intent的ComponentName、Action、Category、Data、Type、Extra以及Flag，七个属性，总体上可以分为3类：
+   第一类：启动，有ComponentName（显式）,Action（隐式），Category（隐式）。
+   第二类：传值，有Data（隐式），Type（隐式），Extra（隐式、显式）。
+   第三类：启动模式，有Flag。
+   设置Component可以启动其他的Activity或者其他应用中的Activity

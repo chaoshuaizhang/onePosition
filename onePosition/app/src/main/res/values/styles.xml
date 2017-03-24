@@ -9,4 +9,17 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Slidr.Slidable" parent="AppTheme">
+        <!-- These values must be set for this mechanism to work -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="popwin_anim_style_first">
+        <item name="android:windowExitAnimation">@anim/tail_popexit_anim</item>
+    </style>
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/tail_popenter_anim</item>
+        <item name="android:windowExitAnimation">@anim/tail_popexit_anim</item>
+    </style>
+
 </resources>

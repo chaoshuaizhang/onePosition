@@ -1,11 +1,15 @@
 package cn.shopin.oneposition.entity.movie;
 
+import java.io.Serializable;
+
+import cn.shopin.oneposition.entity.BaseEntity;
+
 /**
  * Created by zcs on 2016/12/16.
  *
  * @desc
  */
-public class BannerDetailEntity {
+public class BannerDetailEntity extends BaseEntity {
     /**
      * id : 19160
      * title : 沉浸式魔幻体验

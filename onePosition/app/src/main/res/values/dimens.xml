@@ -5,4 +5,5 @@
     <!--我心-->
     <dimen name="home_tag_bigtext">18sp</dimen>
     <dimen name="home_tag_smalltext">14sp</dimen>
+    <dimen name="tail_height">125dp</dimen>
 </resources>

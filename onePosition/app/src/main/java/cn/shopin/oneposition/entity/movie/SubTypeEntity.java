@@ -1,9 +1,11 @@
 package cn.shopin.oneposition.entity.movie;
 
+import cn.shopin.oneposition.entity.BaseEntity;
+
 /**
  * Created by zcs on 2016/12/16.
  */
-public class SubTypeEntity {
+public class SubTypeEntity extends BaseEntity {
 
     private int id;
     private String name;

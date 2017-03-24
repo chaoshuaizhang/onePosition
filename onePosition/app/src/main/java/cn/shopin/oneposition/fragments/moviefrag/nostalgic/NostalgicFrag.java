@@ -1,5 +1,6 @@
 package cn.shopin.oneposition.fragments.moviefrag.nostalgic;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +20,9 @@ import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.adapter.RecyclerAdapter;
 import cn.shopin.oneposition.api.MovieApi;
 import cn.shopin.oneposition.constants.Cans;
+import cn.shopin.oneposition.entity.movie.CollectEntity;
 import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.fragments.webdetail.MovieDetailActivity;
 import cn.shopin.oneposition.util.DateUtil;
 import cn.shopin.oneposition.util.RetrofitUtil;
 import rx.Observer;
@@ -81,12 +84,16 @@ public class NostalgicFrag extends Fragment {
         recyclerAdapter.setOnItemClick(new RecyclerAdapter.setclickListener() {
             @Override
             public void onItemClick(int position) {
-                if (position == dataList.size()) {
+                if (position == dataList.size()) {//加载更多
                     View view = recyclerView.getChildAt(position);
                     timeStr = DateUtil.getSubDate(dataList.get(position - 1).getCreatetime());
                     loadMore = true;
                     recyclerAdapter.setLaoding(loadMore);
                     initData();
+                } else {//点击跳转到webview
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("entity", dataList.get(position));
+                    startActivity(new Intent(getActivity(), MovieDetailActivity.class).putExtra("bundle", bundle));
                 }
             }
         });

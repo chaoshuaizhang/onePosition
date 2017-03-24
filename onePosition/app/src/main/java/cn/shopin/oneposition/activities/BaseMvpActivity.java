@@ -2,6 +2,8 @@ package cn.shopin.oneposition.activities;
 
 import android.os.Bundle;
 
+import com.umeng.analytics.MobclickAgent;
+
 import cn.shopin.oneposition.mvpbase.BasePresenter;
 import cn.shopin.oneposition.mvpbase.BaseView;
 
@@ -26,4 +28,5 @@ public abstract class BaseMvpActivity<V extends BaseView, P extends BasePresente
     }
 
     protected abstract P createPresenter(V view);
+
 }

@@ -24,4 +24,8 @@
         <attr name="civ_border_overlay" format="boolean" />
         <attr name="civ_fill_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="AdverView">
+        <attr name="gap" format="integer" />
+        <attr name="animDuration" format="integer"/>
+    </declare-styleable>
 </resources>

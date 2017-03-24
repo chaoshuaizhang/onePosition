@@ -14,6 +14,8 @@ import rx.Observable;
  * @desc
  */
 public interface MovieApi {
+    public static String MOVIE_DETAIL = "http://moviewapp.dazui.com/Article/Detailv2?id=";
+
     /**
      * @param fromTime  0代表今天，昨天的时间是昨天凌晨0点的时间戳(13位)
      * @param count     请求数量
@@ -63,5 +65,6 @@ public interface MovieApi {
                                                      @Query("category") String category,
                                                      @Query("type") String type,
                                                      @Query("subtype") String subtype);
+
 }
 //HTTP 405 Method Not Allowed post换成get即可，说明服务器只支持get请求
