@@ -1,7 +1,9 @@
 package cn.shopin.oneposition.customview;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -105,8 +107,10 @@ public class TabButton extends LinearLayout {
     public void resetSelectedIndex(int index) {
         index--;
         for (int i = 0; i < getChildCount(); i++) {
+            ((ItemView) getChildAt(i)).setTextColor(getResources().getColor(R.color.colorWhite));
             getChildAt(i).setSelected(i == index);
         }
+        ((ItemView) getChildAt(index)).setTextColor(getResources().getColor(R.color.colorQQBlue));
     }
 }
 

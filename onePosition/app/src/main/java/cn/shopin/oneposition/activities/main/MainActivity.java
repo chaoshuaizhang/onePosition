@@ -1,10 +1,15 @@
 package cn.shopin.oneposition.activities.main;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTabHost;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import cn.shopin.oneposition.fragments.heartfrag.HeartFragment;
 import cn.shopin.oneposition.fragments.LvRadioFragment;
 import cn.shopin.oneposition.fragments.PcOnlineFragment;
 import cn.shopin.oneposition.fragments.moviefrag.MovieFragment;
+import cn.shopin.oneposition.util.ToastUtil;
 
 /**
  * 电影 我心 直播 太平洋 氢气球
@@ -37,10 +43,22 @@ public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPr
         super.onCreate(savedInstanceState);
         Log.d("TAG", "MainActivity onCreate");
         setContentView(R.layout.activity_main);
-        Log.d("NestedScrolling", String.valueOf(getWindowManager().getDefaultDisplay().getHeight()));
-
+        DisplayMetrics mDisplayMetrics = getResources().getDisplayMetrics();
+        Log.d("NestedScrolling", String.valueOf(mDisplayMetrics.density + "  " + mDisplayMetrics.densityDpi));
         initData();
         initView();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            Window window = getWindow();
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.setStatusBarColor(Color.TRANSPARENT);
+//            window.setNavigationBarColor(Color.TRANSPARENT);
+//        }
+        ToastUtil.showToast(this, "start");
     }
 
     @Override

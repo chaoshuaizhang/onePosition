@@ -20,8 +20,7 @@ import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.adapter.RecyclerAdapter;
 import cn.shopin.oneposition.api.MovieApi;
 import cn.shopin.oneposition.constants.Cans;
-import cn.shopin.oneposition.entity.movie.CollectEntity;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.entity.movie.NostalgicEntity;
 import cn.shopin.oneposition.fragments.webdetail.MovieDetailActivity;
 import cn.shopin.oneposition.util.DateUtil;
 import cn.shopin.oneposition.util.RetrofitUtil;
@@ -37,7 +36,7 @@ public class NostalgicFrag extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private RecyclerAdapter recyclerAdapter;
-    private List<MoviePieceEntity> dataList;
+    private List<NostalgicEntity> dataList;
     private int firstVisiblePosition = 0;
     private int lastVisiblePosition = 0;
     private String timeStr = "0";
@@ -108,10 +107,10 @@ public class NostalgicFrag extends Fragment {
             return;
         }
         MovieApi movieApi = RetrofitUtil.createService(MovieApi.class, Cans.TAG_MOVIE);
-        movieApi.getMoviePiece(timeStr, "10", "2", "0", "39")
+        movieApi.getMovieNostalgic(timeStr, "10", "2", "0", "39")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<MoviePieceEntity>>() {
+                .subscribe(new Observer<List<NostalgicEntity>>() {
                     @Override
                     public void onCompleted() {
 
@@ -122,7 +121,7 @@ public class NostalgicFrag extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<MoviePieceEntity> moviePieceEntities) {
+                    public void onNext(List<NostalgicEntity> moviePieceEntities) {
                         dataList.addAll(moviePieceEntities);
                         recyclerAdapter.notifyDataSetChanged();
                         loadMore = false;

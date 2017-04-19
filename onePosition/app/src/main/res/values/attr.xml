@@ -26,6 +26,9 @@
     </declare-styleable>
     <declare-styleable name="AdverView">
         <attr name="gap" format="integer" />
-        <attr name="animDuration" format="integer"/>
+        <attr name="animDuration" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="CalendarView">
+        <attr name="calendar_row" format="integer" />
     </declare-styleable>
 </resources>

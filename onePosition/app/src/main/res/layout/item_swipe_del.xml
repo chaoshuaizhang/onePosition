@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="2000dp"
-    android:layout_height="match_parent"
+    android:layout_width="1000dp"
+    android:layout_height="60dp"
     android:orientation="vertical">
 
     <cn.shopin.oneposition.customview.SwipeDelView
         android:id="@+id/swipe_del"
         android:layout_width="match_parent"
         android:layout_height="60dp">
-        <include layout="@layout/item_swipe_content" />
+
+        <include
+            android:id="@+id/content"
+            layout="@layout/item_swipe_content" />
+
         <include layout="@layout/item_swipe_op" />
     </cn.shopin.oneposition.customview.SwipeDelView>
 </LinearLayout>

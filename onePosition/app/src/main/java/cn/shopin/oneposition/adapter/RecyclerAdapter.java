@@ -16,7 +16,7 @@ import java.util.List;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.customview.CircleProgressView;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.entity.movie.NostalgicEntity;
 import cn.shopin.oneposition.util.EnumServerMap;
 
 /**
@@ -33,13 +33,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int FOOT_VIEW = 6;
     private LayoutInflater mInflater = null;
     private Context mContext;
-    private List<MoviePieceEntity> dataList;
+    private List<NostalgicEntity> dataList;
     private setclickListener setclickListener;
     private View footView;
     private LinearLayout loadMoreLayout;
     private TextView clickToLoad;
 
-    public RecyclerAdapter(Context mContext, List<MoviePieceEntity> list) {
+    public RecyclerAdapter(Context mContext, List<NostalgicEntity> list) {
         this.mContext = mContext;
         dataList = list;
         mInflater = LayoutInflater.from(mContext);

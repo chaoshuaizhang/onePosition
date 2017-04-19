@@ -1,14 +1,9 @@
 package cn.shopin.oneposition.fragments.webdetail;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +14,6 @@ import cn.shopin.oneposition.customview.MyViewPager;
 import cn.shopin.oneposition.customview.slideactivity.Slidr;
 import cn.shopin.oneposition.customview.slideactivity.SlidrConfig;
 import cn.shopin.oneposition.customview.slideactivity.SlidrPosition;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
 
 /**
  * 电影详情页

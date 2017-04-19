@@ -5,3 +5,70 @@
    第二类：传值，有Data（隐式），Type（隐式），Extra（隐式、显式）。
    第三类：启动模式，有Flag。
    设置Component可以启动其他的Activity或者其他应用中的Activity
+3、ButterKnife问题：8.5.1出现 multiple dex的错误。改成了8.0.1
+        注意用法：需要在app下的gradle和项目的gradle分别添加一些配置
+4、全屏显示 和 沉浸式菜单栏是不一样的
+    设置全屏显示：           //注意一定要写在setContentView(R.layout.xxx);之前
+                            requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
+
+5、环信：
+        //一定要放在子线程执行，否则提示registered failed
+        EMClient.getInstance().createAccount("010sppad222", "66666");
+            case R.id.text_custom:
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        zhuce();
+                    }
+                }.start();
+                break;
+    void zhuce() {
+        try {
+            EMClient.getInstance().createAccount("010sppad222", "66666");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "注册成功", Toast.LENGTH_SHORT).show();
+                    EMClient.getInstance().login("010sppad222", "66666", new EMCallBack() {//回调
+                        @Override
+                        public void onSuccess() {
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            Log.d("zhucehx", "登录聊天服务器成功！");
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            Log.d("zhucehx", "正在登陆！");
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            Log.d("zhucehx", "登录聊天服务器失败！");
+                        }
+                    });
+                }
+            });
+        } catch (final HyphenateException e) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //注册失败
+                    int errorCode = e.getErrorCode();
+                    if (errorCode == EMError.NETWORK_ERROR) {
+                        Toast.makeText(getActivity(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+                    } else if (errorCode == EMError.USER_ALREADY_EXIST) {
+                        Toast.makeText(getActivity(), "用户已存在！", Toast.LENGTH_SHORT).show();
+                    } else if (errorCode == EMError.USER_AUTHENTICATION_FAILED) {
+                        Toast.makeText(getActivity(), "注册失败，无权限！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }

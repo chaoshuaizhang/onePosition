@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.shopin.oneposition.entity.movie.CollectEntity;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.entity.movie.NostalgicEntity;
 import cn.shopin.oneposition.entity.movie.SubTypeEntity;
 
 /**
@@ -32,7 +32,7 @@ public class DBManager {
         return dbManager;
     }
 
-    public void insert(MoviePieceEntity entity) {
+    public void insert(NostalgicEntity entity) {
         Log.d("sqlOP", "insert : ---");
         ContentValues cValues = new ContentValues();
         cValues.put("id", entity.getId());
@@ -46,7 +46,7 @@ public class DBManager {
         Log.d("sqlOP", "insert : " + String.valueOf(id));
     }
 
-    public void delete(MoviePieceEntity entity) {
+    public void delete(NostalgicEntity entity) {
         Log.d("sqlOP", "delete : ---");
         int id = sqLiteDatabase.delete("mv_collect", "id=?", new String[]{String.valueOf(entity.getId())});
         Log.d("sqlOP", "delete : " + String.valueOf(id));

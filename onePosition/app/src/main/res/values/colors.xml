@@ -7,7 +7,14 @@
     <color name="colorGreen">#00FF00</color>
     <color name="colorBlack">#000</color>
     <color name="colorBlue">#0066FF</color>
+    <color name="colorQQBlue">#2296E1</color>
+    <color name="colorQQSelect">#EDFAFF</color>
     <color name="colorGray">#DDDDDD</color>
+    <color name="colorQQTop">#C6C6CC</color>
+    <color name="colorGray2">#B5B5B5</color>
+    <color name="colorGray3">#F0F0F0</color>
+    <color name="colorGray4">#727071</color>
+    <color name="colorQQDel">#FE9C00</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="colorRed">#FF0000</color>

@@ -48,6 +48,11 @@ import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
  * Created by zcs on 2016/12/5.
  */
 public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView, View.OnClickListener, ViewPager.OnPageChangeListener {
+    /**
+     * 这个方法中我们主要是通过布局填充器获取fragment布局.
+     * Nullable 表示可以为空-即：可传空值
+     */
+    private View view;
     private FrameLayout fragContainer;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
@@ -85,6 +90,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("fraglife", "MovieFragment-----onCreate");
         inidFrags();
     }
 
@@ -93,12 +99,6 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         return new MoviePresenter(this);
     }
 
-    /**
-     * 这个方法中我们主要是通过布局填充器获取fragment布局.
-     * Nullable 表示可以为空-即：可传空值
-     */
-    View view;
-
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
@@ -106,15 +106,16 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         }
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (parentView != null) {
+            Log.d("fraglife", "MovieFragment  parentView != null");
             parentView.removeView(view);
             return view;
+        } else {
+            Log.d("fraglife", "MovieFragment  parentView == null");
         }
-        initView();
-        initListener();
-        initViewPager();
-        initData();
+        Log.d("fraglife", "MovieFragment-----onCreateView");
         return view;
     }
+
 
     /**
      * 初始化Frags
@@ -135,13 +136,13 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
      */
     private void initViewPager() {
         imgs = new ArrayList<>();
-        pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
-        viewPager.setAdapter(pagerAdapter);
         for (int i = 0; i < 3; i++) {
             ImageView img = new ImageView(getActivity());
             imgs.add(img);
         }
-        viewPager.setPageMargin(20);
+        pagerAdapter = new ViewPagerAdapter(getActivity(), imgs);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setPageMargin(0);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setPageTransformer(true, new ScaleInTransformer());
         nestedScrollview.setOnTouchListener(new View.OnTouchListener() {
@@ -154,7 +155,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
                         if (viewPager.getGlobalVisibleRect(rect)) {
                             if (rect.height() > viewPager.getHeight() - 10) {
                                 Log.d("getVisibility", "---VISIBLE---");
-                                swipeRefreshLayout.setEnabled(true);
+                                swipeRefreshLayout.setEnabled(false);
                             } else {
                                 swipeRefreshLayout.setEnabled(false);
                             }
@@ -176,7 +177,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
                         if (viewPager.getGlobalVisibleRect(rect)) {
                             if (rect.height() > viewPager.getHeight() - 10) {
                                 Log.d("getVisibility", "---VISIBLE---");
-                                swipeRefreshLayout.setEnabled(true);
+                                swipeRefreshLayout.setEnabled(false);
                             } else {
                                 swipeRefreshLayout.setEnabled(false);
                             }
@@ -194,6 +195,11 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d("fraglife", "---onActivityCreated---");
+        initView();
+        initListener();
+        initViewPager();
+        initData();
     }
 
     @Override
@@ -207,6 +213,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refreshlayout);
+        swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -232,7 +239,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         // TODO: 2017/1/19 首次进入|外层Frag切换
         if (!sparseArray.get(selectedIndex).isAdded()) {
             tabButton.resetSelectedIndex(selectedIndex);
-            fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(selectedIndex)).commit();
+            fragManager.beginTransaction().add(R.id.frag_container, sparseArray.get(selectedIndex)).commitAllowingStateLoss();
         }
     }
 
@@ -262,9 +269,10 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         }
         int currIndex = (int) view.getTag();
         if (sparseArray.get(currIndex).isAdded()) {
-            fragManager.beginTransaction().hide(sparseArray.get(selectedIndex)).show(sparseArray.get(currIndex)).commit();
+            // TODO: 2017/3/30 因为：IllegalStateException: Can not perform this action after onSaveInstanceState，commit() 替换成 commitAllowingStateLoss() 然并O
+            fragManager.beginTransaction().hide(sparseArray.get(selectedIndex)).show(sparseArray.get(currIndex)).commitAllowingStateLoss();
         } else {
-            fragManager.beginTransaction().hide(sparseArray.get(selectedIndex)).add(R.id.frag_container, sparseArray.get(currIndex)).commit();
+            fragManager.beginTransaction().hide(sparseArray.get(selectedIndex)).add(R.id.frag_container, sparseArray.get(currIndex)).commitAllowingStateLoss();
         }
         tabButton.resetSelectedIndex(selectedIndex = currIndex);
     }
@@ -319,5 +327,11 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
             }
             viewPager.setCurrentItem(xposition, false);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("fraglife", "MovieFragment-----onDestroyView");
     }
 }

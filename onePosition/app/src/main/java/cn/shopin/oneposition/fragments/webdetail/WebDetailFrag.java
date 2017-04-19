@@ -1,13 +1,10 @@
 package cn.shopin.oneposition.fragments.webdetail;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -15,34 +12,23 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshWebView;
-import com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2;
-
-import java.text.SimpleDateFormat;
 
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.api.MovieApi;
-import cn.shopin.oneposition.entity.movie.CollectEntity;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.entity.movie.NostalgicEntity;
 import cn.shopin.oneposition.util.db.DBManager;
-
-import static android.R.attr.onClick;
-import static android.R.attr.selectable;
 
 /**
  * Created by zcs on 2017/3/4.
@@ -63,7 +49,7 @@ public class WebDetailFrag extends Fragment {
     private ImageView imgComment;
     private ImageView imgCollect;
     private GestureDetector gestureListener;
-    private MoviePieceEntity mCurrentEntity;
+    private NostalgicEntity mCurrentEntity;
     private DBManager dbManager;
     private boolean isSelected = false;
 
@@ -80,7 +66,7 @@ public class WebDetailFrag extends Fragment {
         textTitle = (TextView) view.findViewById(R.id.title);
         initView();
         bun = getArguments();
-        mCurrentEntity = (MoviePieceEntity) bun.getSerializable("entity");
+        mCurrentEntity = (NostalgicEntity) bun.getSerializable("entity");
         textComments.setText(String.valueOf(mCurrentEntity.getCommentcount()));
         textTitle.setText(mCurrentEntity.getSubtype().getName());
         webViewConfig();
@@ -184,7 +170,10 @@ public class WebDetailFrag extends Fragment {
                 /**
                  * 异常：View not attached to window manager
                  * */
-                if (!WebDetailFrag.this.isDetached()) {
+/*                if (!WebDetailFrag.this.isDetached()) {
+                    tailPopupWindow.dismiss();
+                }*/
+                if (getActivity() != null && !getActivity().isFinishing()) {
                     tailPopupWindow.dismiss();
                 }
             }

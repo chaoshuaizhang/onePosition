@@ -3,7 +3,8 @@ package cn.shopin.oneposition.api;
 import java.util.List;
 
 import cn.shopin.oneposition.entity.movie.BannerDetailEntity;
-import cn.shopin.oneposition.entity.movie.MoviePieceEntity;
+import cn.shopin.oneposition.entity.movie.NostalgicEntity;
+import cn.shopin.oneposition.entity.movie.PieceEntity;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -49,7 +50,7 @@ public interface MovieApi {
                                                         @Query("type") String type);
 
     /**
-     * 排片
+     * 怀旧
      *
      * @param fromTime
      * @param count
@@ -60,11 +61,20 @@ public interface MovieApi {
      */
     //http://moviewapp.dazui.com/APIV3/Article/GetList?fromTime=1469007382000&count=10&category=2&type=0&subtype=39
     @GET("/APIV3/Article/GetList")
-    Observable<List<MoviePieceEntity>> getMoviePiece(@Query("fromTime") String fromTime,
-                                                     @Query("count") String count,
-                                                     @Query("category") String category,
-                                                     @Query("type") String type,
-                                                     @Query("subtype") String subtype);
+    Observable<List<NostalgicEntity>> getMovieNostalgic(@Query("fromTime") String fromTime,
+                                                        @Query("count") String count,
+                                                        @Query("category") String category,
+                                                        @Query("type") String type,
+                                                        @Query("subtype") String subtype);
+
+    /**
+     * @param timestamp
+     * @return
+     * @desc 排片
+     */
+    @GET("/MovieSheet/GetDataByDate")
+    Observable<List<PieceEntity>> getMoviePieceEntity(@Query("timestamp") String timestamp);
+
 
 }
 //HTTP 405 Method Not Allowed post换成get即可，说明服务器只支持get请求

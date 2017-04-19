@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/titleBar"
@@ -24,9 +24,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/img_default_head_pic"
-            android:onClick="text"
             app:outCircleColor="@color/colorGray"
-            app:outCircleWidth="2dp" />
+            app:outCircleWidth="2dp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -37,15 +36,15 @@
             android:gravity="center"
             android:hint="请输入关键字"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_custom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="客服" />
+            android:text="客服"/>
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -67,19 +66,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"></android.support.v4.view.ViewPager>
 
-                <include layout="@layout/heart_type_tag" />
+                <include layout="@layout/heart_type_tag"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGray"
+                    />
 
                 <cn.shopin.oneposition.customview.AdverView
                     android:id="@+id/adverview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></cn.shopin.oneposition.customview.AdverView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    ></cn.shopin.oneposition.customview.AdverView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/colorGray3"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:text="- 推荐咨询师 -" />
-
+                    android:text="- 推荐咨询师 -"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGray"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
@@ -97,28 +115,28 @@
                             android:id="@+id/counselor1_avatar"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"/>
 
                         <TextView
                             android:id="@+id/counselor1_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
-                            android:text="name" />
+                            android:text="name"/>
 
                         <TextView
                             android:id="@+id/counselor1_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
-                            android:text="最佳咨询师" />
+                            android:text="最佳咨询师"/>
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/colorGray" />
+                        android:background="@color/colorGray"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -140,14 +158,14 @@
                                 android:id="@+id/counselor2_avatar"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"/>
 
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/colorGray" />
+                            android:background="@color/colorGray"/>
 
 
                         <LinearLayout
@@ -166,7 +184,7 @@
                                     android:id="@+id/counselor3_avatar"
                                     android:layout_width="wrap_content"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -178,13 +196,13 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp"
-                                        android:text="姓名" />
+                                        android:text="姓名"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="5dp"
-                                        android:text="国二" />
+                                        android:text="国二"/>
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -192,7 +210,7 @@
                             <TextView
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/colorGray" />
+                                android:background="@color/colorGray"/>
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -205,7 +223,7 @@
                                     android:id="@+id/counselor4_avatar"
                                     android:layout_width="wrap_content"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -217,13 +235,13 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp"
-                                        android:text="姓名" />
+                                        android:text="姓名"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="5dp"
-                                        android:text="国二" />
+                                        android:text="国二"/>
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -237,7 +255,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="- 最新心理圈 -" />
+                    android:text="- 最新心理圈 -"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"

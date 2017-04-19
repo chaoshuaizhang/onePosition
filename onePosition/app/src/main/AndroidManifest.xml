@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.shopin.oneposition">
+          package="cn.shopin.oneposition">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- 获取wifi网络状态的信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- 获取sd卡写的权限，用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--环信-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".Myapplication"
@@ -22,28 +41,75 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.main.MainActivity">
+        <activity
+            android:name=".activities.main.MainActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".activities.BaseActivity"/>
+        <activity android:name=".activities.BaseMvpActivity"/>
+        <activity android:name=".activities.welcome.WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.BaseMvpActivity" />
-        <activity android:name=".activities.welcome.WelcomeActivity" />
-        <!--android:theme="@style/Theme.Slidr.Slidable"需要在设置SlidrConfig的activity中使用-->
+        <!-- android:theme="@style/Theme.Slidr.Slidable"需要在设置SlidrConfig的activity中使用 -->
         <activity
             android:name=".fragments.webdetail.MovieDetailActivity"
-            android:theme="@style/Theme.Slidr.Slidable" />
-        <activity android:name=".activities.AuthorizeActivity" />
+            android:theme="@style/Theme.Slidr.Slidable"/>
+        <activity android:name=".activities.AuthorizeActivity"/>
         <activity
             android:name=".activities.AAAActivity"
-            android:theme="@style/Theme.Slidr.Slidable"></activity>
-        <activity android:name=".activities.BBBActivity"></activity>
-        <activity android:name=".activities.CCCActivity"></activity>
-        <meta-data android:value="58d36b761c5dd026fd001821" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Umeng" android:name="UMENG_CHANNEL"/>
-    </application>
+            android:theme="@style/Theme.Slidr.Slidable"/>
+        <activity android:name=".activities.BBBActivity"/>
+        <activity android:name=".activities.CCCActivity"/>
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="58d36b761c5dd026fd001821"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng"/>
+
+        <activity android:name=".activities.CalendarActivity"/>
+        <activity android:name=".activities.Main2Activity"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cn.shopin.oneposition.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <!--环信-->
+
+        <!-- 设置环信应用的AppKey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="0378#huanxinzcs"/>
+        <!-- 声明SDK所需的service SDK核心功能-->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true"/>
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            />
+        <!-- 声明SDK所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
