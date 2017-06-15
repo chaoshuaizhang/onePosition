@@ -1,9 +1,6 @@
-package cn.shopin.oneposition.activities;
+package cn.shopin.oneposition.test;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,10 +18,7 @@ import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.customview.PieCharts;
 import cn.shopin.oneposition.customview.slideactivity.Slidr;
 import cn.shopin.oneposition.customview.slideactivity.SlidrConfig;
-import cn.shopin.oneposition.customview.slideactivity.SlidrListener;
 import cn.shopin.oneposition.customview.slideactivity.SlidrPosition;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class AAAActivity extends AppCompatActivity {
     private ViewPager viewPager;

@@ -1,12 +1,17 @@
 package cn.shopin.oneposition.activities.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +21,10 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.activities.BaseMvpActivity;
 import cn.shopin.oneposition.fragments.BalloonFragment;
@@ -28,48 +37,53 @@ import cn.shopin.oneposition.util.ToastUtil;
 /**
  * 电影 我心 直播 太平洋 氢气球
  */
-public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPresenter> implements MainContract.IMainView {
+public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.IMainView {
 
-    private FragmentTabHost fragTabHost;
-    private Class[] fragClass;
-    private int[] icons;
+    private SparseArray<Fragment> frags = new SparseArray<>();
+    private SparseArray<TextView> textViews = new SparseArray<>();
     private String[] iconsText;
-    private ImageView centerImg;
     private SlidingMenu slidingMenu;
     private NavigationView navigationView;
+    private FragmentTransaction mTransaction;
+    private MovieFragment movieFragment;
+    private HeartFragment heartFragment;
+    private LvRadioFragment radioFragment;
+    private PcOnlineFragment pcOnlineFragment;
+    private BalloonFragment balloonFragment;
+    @BindView(R.id.textMovie)
+    protected TextView textMovie;
+    @BindView(R.id.textHeart)
+    protected TextView textHeart;
+    @BindView(R.id.textRadio)
+    protected TextView textRadio;
+    @BindView(R.id.textOcean)
+    protected TextView textOcean;
+    @BindView(R.id.textBalloon)
+    protected TextView textBalloon;
+    private int tag = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("TAG", "MainActivity onCreate");
-        setContentView(R.layout.activity_main);
-        DisplayMetrics mDisplayMetrics = getResources().getDisplayMetrics();
-        Log.d("NestedScrolling", String.valueOf(mDisplayMetrics.density + "  " + mDisplayMetrics.densityDpi));
-        initData();
-        initView();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Window window = getWindow();
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//            window.setNavigationBarColor(Color.TRANSPARENT);
-//        }
-        ToastUtil.showToast(this, "start");
     }
 
     @Override
-    protected MainPresenter createPresenter(MainContract.IMainView view) {
-        return new MainPresenter(this);
+    protected void initInject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initEventAndData() {
+        initView();
+        initData();
     }
 
     public void initView() {
-        centerImg = (ImageView) findViewById(R.id.center_img);
-        fragTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        fragTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         slidingMenu = new SlidingMenu(this);
         slidingMenu.setMenu(R.layout.slip_menu);
         slidingMenu.setMode(SlidingMenu.LEFT);
@@ -78,57 +92,83 @@ public class MainActivity extends BaseMvpActivity<MainContract.IMainView, MainPr
         slidingMenu.setBehindOffset(200);
         // 设置渐入渐出效果的值
         slidingMenu.setFadeDegree(0.35f);
-        /**
-         * SLIDING_WINDOW will include the Title/ActionBar in the content
-         * section of the SlidingMenu, while SLIDING_CONTENT does not.
-         */
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        fragTabHost.getTabWidget().setDividerDrawable(null);
-//        fragTabHost.getTabWidget().setAnimation(new AnimationSet());
-        for (int i = 0; i < icons.length; i++) {
-            TabHost.TabSpec tabSpec = fragTabHost.newTabSpec("Tab" + i).setIndicator(getTabsView(i));
-            fragTabHost.addTab(tabSpec, fragClass[i], null);
-        }
-        mPresenter.fun_main_presenter();
     }
 
     public void initListener() {
     }
 
+    @Override
     public void initData() {
-        fragClass = new Class[]{MovieFragment.class, HeartFragment.class, LvRadioFragment.class,
-                PcOnlineFragment.class, BalloonFragment.class};
-        icons = new int[]{R.drawable.icon_movie_pressed, R.drawable.icon_heart_pressed, R.drawable.icon_radio_pressed,
-                R.drawable.icon_ocean_pressed, R.drawable.icon_balloon_pressed};
-        iconsText = new String[]{"movie", "heart", "", "ocean", "balloon"};
-    }
-
-    private View getTabsView(int i) {
-        //取得底部FragTab布局实例
-        View view = View.inflate(MainActivity.this, R.layout.frag_item_indicator, null);
-        //取得布局对象
-        ImageView imageView = (ImageView) view.findViewById(R.id.tab_img);
-        TextView textView = (TextView) view.findViewById(R.id.tab_tv);
-        //设置图标
-        imageView.setBackgroundResource(icons[i]);
-        textView.setText(iconsText[i]);
-        return view;
+        mTransaction = getSupportFragmentManager().beginTransaction();
+        initFrags();
+        setDefaultFrag(tag);
     }
 
     @Override
-    public void fun_main_view() {
-        Log.d("TAG", "fun_main_view");
+    public void initFrags() {
+        movieFragment = new MovieFragment();
+        heartFragment = new HeartFragment();
+        radioFragment = new LvRadioFragment();
+        pcOnlineFragment = new PcOnlineFragment();
+        balloonFragment = new BalloonFragment();
+        frags.put(0, movieFragment);
+        frags.put(1, heartFragment);
+        frags.put(2, radioFragment);
+        frags.put(3, pcOnlineFragment);
+        frags.put(4, balloonFragment);
+        textViews.put(0, textMovie);
+        textViews.put(1, textHeart);
+        textViews.put(2, textRadio);
+        textViews.put(3, textOcean);
+        textViews.put(4, textBalloon);
+        for (int i = 0; i < frags.size(); i++) {
+            mTransaction.add(R.id.container, frags.get(i));
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("TAG", "MainActivity onResume");
+    public void setDefaultFrag(int tag) {
+        switchFrag(tag);
+    }
+
+    @OnClick({R.id.textMovie, R.id.textHeart, R.id.textRadio, R.id.textOcean, R.id.textBalloon})
+    public void click(View view) {
+        int tag = Integer.valueOf(view.getTag().toString());
+        if (tag != this.tag) {
+            resetSelected();
+            switchFrag(tag);
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("TAG", "MainActivity onPause");
+    public void switchFrag(int tag) {
+        mTransaction = getSupportFragmentManager().beginTransaction();
+        if (tag == -1) {//第一次进入时，没有需要隐藏的Frag
+            tag = 0;
+            mTransaction.add(R.id.container, frags.get(tag)).commit();
+        } else {
+            if (frags.get(tag).isAdded()) {
+                mTransaction.hide(frags.get(this.tag)).show(frags.get(tag)).commit();
+            } else {
+                mTransaction.hide(frags.get(this.tag)).add(R.id.container, frags.get(tag)).commit();
+            }
+        }
+        textViews.get(tag).setSelected(true);
+        this.tag = tag;
     }
+
+    private void resetSelected() {
+        textMovie.setSelected(false);
+        textHeart.setSelected(false);
+        textRadio.setSelected(false);
+        textOcean.setSelected(false);
+        textBalloon.setSelected(false);
+    }
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
+
 }

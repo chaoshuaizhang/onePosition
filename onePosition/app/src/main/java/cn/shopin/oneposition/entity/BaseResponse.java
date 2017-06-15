@@ -5,10 +5,10 @@ package cn.shopin.oneposition.entity;
  *
  * @desc 网络请求返回的对象
  */
-public class BaseResponse extends BaseEntity {
+public class BaseResponse<T> extends BaseEntity {
     private String code;
     private String codeInfo;
-    private String data;
+    private T data;
 
     public String getCode() {
         return code;
@@ -26,11 +26,11 @@ public class BaseResponse extends BaseEntity {
         this.codeInfo = codeInfo;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

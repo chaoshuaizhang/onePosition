@@ -119,8 +119,9 @@ public class CalendarView extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int parentWidth = MeasureSpec.getSize(MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY));
+        int parentHeight = MeasureSpec.getSize(MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY));
         itemWidth = parentWidth / column;
-        itemHeight = itemWidth;
+        itemHeight = parentHeight / row;
         View view = getChildAt(0);
         if (view == null) {
             return;
@@ -129,7 +130,7 @@ public class CalendarView extends ViewGroup {
         if (params != null && params.height > 0) {
             itemHeight = params.height;
         }
-        setMeasuredDimension(parentWidth, itemHeight * row);
+        setMeasuredDimension(parentWidth, parentHeight);
         for (int i = 0; i < getChildCount(); i++) {
             View childView = getChildAt(i);
             childView.measure(MeasureSpec.makeMeasureSpec(itemWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(itemHeight, MeasureSpec.EXACTLY));

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <cn.shopin.oneposition.customview.MyListView
-        android:id="@+id/recyclerview"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></cn.shopin.oneposition.customview.MyListView>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package cn.shopin.oneposition.util.db;
+package cn.shopin.oneposition.model.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import cn.shopin.oneposition.entity.movie.CollectEntity;
 import cn.shopin.oneposition.entity.movie.NostalgicEntity;
@@ -22,18 +24,21 @@ public class DBManager {
     private SQLiteDatabase sqLiteDatabase;
     private DBManager dbManager;
 
-    public DBManager(Context mContext) {
-        sqLiteOpenHelper = new MySqLiteOpenHelper(mContext);
-        sqLiteDatabase = sqLiteOpenHelper.getSqlDBInstance();
+    @Inject
+    public DBManager(MySqLiteOpenHelper sqLiteOpenHelper) {
+        Log.d("DBManager", "DBManager  初始化");
+        this.sqLiteOpenHelper = sqLiteOpenHelper;
+        sqLiteDatabase = this.sqLiteOpenHelper.getSqlDBInstance();
+//        sqLiteOpenHelper = new MySqLiteOpenHelper(mContext);
+//        sqLiteDatabase = sqLiteOpenHelper.getSqlDBInstance();
     }
+//
+//    public DBManager getDBMInstance(Context mContext) {
+//        dbManager = new DBManager(mContext);
+//        return dbManager;
+//    }
 
-    public DBManager getDBMInstance(Context mContext) {
-        dbManager = new DBManager(mContext);
-        return dbManager;
-    }
-
-    public void insert(NostalgicEntity entity) {
-        Log.d("sqlOP", "insert : ---");
+    public long insert(NostalgicEntity entity) {
         ContentValues cValues = new ContentValues();
         cValues.put("id", entity.getId());
         cValues.put("title", entity.getTitle());
@@ -42,14 +47,15 @@ public class DBManager {
         cValues.put("commentcount", entity.getCommentcount());
         cValues.put("type", entity.getSubtype().getName());
         cValues.put("img_url", entity.getPic());
-        long id = sqLiteDatabase.insert("mv_collect", null, cValues);
-        Log.d("sqlOP", "insert : " + String.valueOf(id));
+        return sqLiteDatabase.insert("mv_collect", null, cValues);
     }
 
-    public void delete(NostalgicEntity entity) {
-        Log.d("sqlOP", "delete : ---");
-        int id = sqLiteDatabase.delete("mv_collect", "id=?", new String[]{String.valueOf(entity.getId())});
-        Log.d("sqlOP", "delete : " + String.valueOf(id));
+    public int delete(NostalgicEntity entity) {
+        return sqLiteDatabase.delete("mv_collect", "id=?", new String[]{String.valueOf(entity.getId())});
+    }
+
+    public int delete(int id) {
+        return sqLiteDatabase.delete("mv_collect", "id=?", new String[]{String.valueOf(id)});
     }
 
     public List<CollectEntity> query() {
@@ -68,7 +74,6 @@ public class DBManager {
             entity.setPic(mCursor.getString(mCursor.getColumnIndex("img_url")));
             collects.add(entity);
         }
-        Log.d("sqlOP", "query : " + String.valueOf(collects.size()));
         return collects;
     }
 

@@ -3,6 +3,9 @@ package cn.shopin.oneposition.util;
 import android.util.Log;
 import android.util.SparseArray;
 
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -23,6 +25,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtil {
     private static SparseArray<Retrofit> retrofits = new SparseArray<>();
 
+    public static Retrofit createRetrofit(Retrofit.Builder builder, OkHttpClient client, int urlTag) {
+        return builder
+                .baseUrl(EnumServerMap.getBaseUrlByTag(urlTag))
+                .client(client)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    private static OkHttpClient.Builder getOkHttpBuilder() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new MyInter())
+                .connectTimeout(30, TimeUnit.SECONDS)//设置链接超时
+                .readTimeout(30, TimeUnit.SECONDS)//设置读取超时
+                .build();
+        return okHttpClient.newBuilder();
+    }
+
     private static Retrofit getRetrofitInstnce(int tag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new MyInter())
@@ -32,7 +52,7 @@ public class RetrofitUtil {
         if (retrofits.get(tag) == null) {
             Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)
                     .baseUrl(EnumServerMap.getBaseUrlByTag(tag))
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             retrofits.put(tag, retrofit);

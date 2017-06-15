@@ -1,5 +1,6 @@
 package cn.shopin.oneposition.activities.welcome;
 
+import cn.shopin.oneposition.entity.movie.WelcomeEntity;
 import cn.shopin.oneposition.mvpbase.BaseModel;
 import cn.shopin.oneposition.mvpbase.BasePresenter;
 import cn.shopin.oneposition.mvpbase.BaseView;
@@ -9,13 +10,16 @@ import cn.shopin.oneposition.mvpbase.BaseView;
  */
 
 public interface WelcomeContract {
-    interface IWelcomeView extends BaseView { }
+    interface IWelcomeView extends BaseView {
+        void setImgs(WelcomeEntity welcomeEntity);
 
-    interface IWelcomeModel extends BaseModel { }
+        void jumpToMain();
+    }
 
-    abstract class IWelcomePresenter extends BasePresenter<IWelcomeView> {
-        public IWelcomePresenter(IWelcomeView iWelcomeView) {
-            super(iWelcomeView);
-        }
+
+    interface IWelcomePresenter {
+        void setWelcomeImg();
+
+        void actionToMainActivity();
     }
 }

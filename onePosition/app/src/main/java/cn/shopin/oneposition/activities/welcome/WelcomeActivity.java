@@ -11,52 +11,75 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.activities.BaseMvpActivity;
 import cn.shopin.oneposition.activities.LoginActivity;
 import cn.shopin.oneposition.activities.main.MainActivity;
+import cn.shopin.oneposition.entity.movie.WelcomeEntity;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseMvpActivity<WelcomePresenter> implements WelcomeContract.IWelcomeView {
     @BindView(R.id.welcome_img)
     protected ImageView welcomeTmg;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-            finish();
-        }
-    };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setFullScreen();
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
-        setWelcomeImg();
-        handler.sendEmptyMessageDelayed(0, 2000);
-    }
-
-/*    @Override
-    protected WelcomeContract.IWelcomePresenter createPresenter(WelcomeContract.IWelcomeView view) {
-        return null;
-    }*/
-
-    private void setWelcomeImg() {
-
-    }
+    private List<WelcomeEntity.GroupsBean> groups = new ArrayList<>();
+    private String imgPath = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497343470139&di=f348b5f0c92f0df7366c868d17bf98a3&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201410%2F01%2F20141001135859_Ei2Cn.jpeg";
 
     /**
-     * 设置全屏
+     * 此处重写的目的：为了在setContentView前设置是否全屏
      */
-    private void setFullScreen() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //隐藏虚拟键
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        isFullScreen = true;
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initInject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_welcome;
+    }
+
+    @Override
+    protected void initEventAndData() {
+        mPresenter.setWelcomeImg();
+    }
+
+    @Override
+    public void setImgs(WelcomeEntity welcomeEntity) {
+        groups.addAll(welcomeEntity.getGroups());
+        //Picasso.with(this).load(groups.get(0).getImgUrls().get(0)).into(welcomeTmg);
+        Picasso.with(this).load(imgPath).fit().into(welcomeTmg);
+        mPresenter.actionToMainActivity();
+    }
+
+    @Override
+    public void jumpToMain() {
+        MainActivity.start(this);
+        finish();
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+
     }
 }

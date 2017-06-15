@@ -27,10 +27,7 @@ public interface MovieContract {
     }
 
     // TODO: 2016/12/18 至于定义成接口还是抽象类还有待考虑
-    abstract class IMoviePresenter extends BasePresenter<IMovieView> {
-        public IMoviePresenter(IMovieView iMovieView) {
-            super(iMovieView);
-        }
+    interface IMoviePresenter{
 
         /**
          * 得到普通banner

@@ -1,9 +1,15 @@
 package cn.shopin.oneposition.util.rxBus;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+
+import cn.shopin.oneposition.util.RxUtil;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.processors.FlowableProcessor;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Created by zcs on 2017/1/19.
@@ -13,7 +19,7 @@ import rx.subjects.Subject;
 
 public class RxBus {
 
-    private final Subject<Object, Object> bus;
+    private final FlowableProcessor<Object> bus;
 
     /**
      * 四种subject的区别和适用场景
@@ -24,7 +30,8 @@ public class RxBus {
      */
 
     private RxBus() {
-        this.bus = new SerializedSubject<>(PublishSubject.create());
+//        this.bus = PublishSubject.create().toSerialized();//无被压处理
+        this.bus = PublishProcessor.create().toSerialized();//有被压处理
     }
 
     public static RxBus getRxBusInstance() {
@@ -44,7 +51,12 @@ public class RxBus {
         getRxBusInstance().bus.onNext(obj);
     }
 
-    public  <T> Observable<T> tObservable(Class<T> eventType) {
-        return getRxBusInstance().bus.ofType(eventType);
+    public <T> Flowable<T> toFlowable(Class<T> eventType) {
+        return bus.ofType(eventType);
+    }
+
+    // 封装默认订阅
+    public <T> Disposable toDefaultFlowable(Class<T> eventType, Consumer<T> action) {
+        return bus.ofType(eventType).compose(RxUtil.<T>rxSchedulerHelper()).subscribe(action);
     }
 }

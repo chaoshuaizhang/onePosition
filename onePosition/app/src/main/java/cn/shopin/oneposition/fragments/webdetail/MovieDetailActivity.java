@@ -8,7 +8,10 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.activities.BaseMvpActivity;
 import cn.shopin.oneposition.adapter.FragPagerAdapter;
 import cn.shopin.oneposition.customview.MyViewPager;
 import cn.shopin.oneposition.customview.slideactivity.Slidr;
@@ -19,8 +22,9 @@ import cn.shopin.oneposition.customview.slideactivity.SlidrPosition;
  * 电影详情页
  * 底部上滑消失-下滑显示
  */
-public class MovieDetailActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
-    private MyViewPager viewPager;
+public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> implements ViewPager.OnPageChangeListener, MovieDetailContract.IMovieDetailView {
+    @BindView(R.id.viewpager)
+    protected MyViewPager viewPager;
     private FragPagerAdapter fragPagerAdapter;
     private List<Fragment> frags;
     private TransparentFrag transparentFrag;
@@ -29,36 +33,37 @@ public class MovieDetailActivity extends AppCompatActivity implements ViewPager.
     private SlidrConfig slidrConfig;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+    protected void initInject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_movie_detail;
+    }
+
+    @Override
+    protected void initEventAndData() {
         initView();
-        initdata();
+        initData();
     }
 
-    private void initSlidrConfig() {
-        slidrConfig = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .scrimStartAlpha(0f)
-                .scrimEndAlpha(0f)
-                .velocityThreshold(2400)
-                .distanceThreshold(0.25f)
-                .distanceThreshold(0.5f)
-                .edge(true)
-                .build();
-        Slidr.attach(this, slidrConfig);
-    }
-
-    private void initView() {
+    @Override
+    public void initView() {
         frags = new ArrayList<>();
-        viewPager = (MyViewPager) findViewById(R.id.viewpager);
         fragPagerAdapter = new FragPagerAdapter(getSupportFragmentManager(), frags);
         viewPager.setAdapter(fragPagerAdapter);
         viewPager.addOnPageChangeListener(this);
         viewPager.setFadingEdgeLength(50);
     }
 
-    private void initdata() {
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         transparentFrag = new TransparentFrag();
         webDetailFrag = new WebDetailFrag();
         webCommentFrag = new WebCommentFrag();
@@ -86,3 +91,18 @@ public class MovieDetailActivity extends AppCompatActivity implements ViewPager.
     public void onPageScrollStateChanged(int state) {
     }
 }
+
+/*
+    private void initSlidrConfig() {
+        slidrConfig = new SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
+                .scrimStartAlpha(0f)
+                .scrimEndAlpha(0f)
+                .velocityThreshold(2400)
+                .distanceThreshold(0.25f)
+                .distanceThreshold(0.5f)
+                .edge(true)
+                .build();
+        Slidr.attach(this, slidrConfig);
+    }
+*/

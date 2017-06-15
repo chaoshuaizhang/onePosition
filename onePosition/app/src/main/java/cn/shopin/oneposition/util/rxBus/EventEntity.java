@@ -1,5 +1,7 @@
 package cn.shopin.oneposition.util.rxBus;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by zcs on 2017/1/19.
  */
@@ -11,7 +13,7 @@ public class EventEntity {
     public EventEntity() {
     }
 
-    public EventEntity(int tag, Object object) {
+    public EventEntity(int tag, @Nullable Object object) {
         this.tag = tag;
         this.object = object;
     }

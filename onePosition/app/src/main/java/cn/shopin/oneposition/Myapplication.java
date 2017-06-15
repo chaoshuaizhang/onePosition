@@ -1,5 +1,6 @@
 package cn.shopin.oneposition;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
@@ -9,16 +10,76 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import cn.shopin.oneposition.di.component.AppComponent;
+import cn.shopin.oneposition.di.component.DaggerAppComponent;
+import cn.shopin.oneposition.di.module.AppModule;
+import cn.shopin.oneposition.di.module.HttpModule;
 
 /**
  * Created by zcs on 2016/12/7.
  */
 public class Myapplication extends Application {
+    private Set<Activity> allActivities;
+    private static Myapplication instance;
+    private static AppComponent appComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        initEMClient();
+        initLeakCanary();
+    }
+
+    public static Myapplication getInstance() {
+        return instance;
+    }
+
+    public static AppComponent getAppComponent() {
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(instance))
+                    .httpModule(new HttpModule())
+                    .build();
+        }
+        return appComponent;
+    }
+
+    public void addActivity(Activity act) {
+        try {
+            if (allActivities == null) {
+                allActivities = new HashSet<>();
+            }
+            allActivities.add(act);
+        } catch (Exception e) {
+            Log.d("lloogg", e.getMessage());
+        }
+    }
+
+    public void removeActivity(Activity act) {
+        if (allActivities != null) {
+            allActivities.remove(act);
+        }
+    }
+
+    public void exitApp() {
+        if (allActivities != null) {
+            synchronized (allActivities) {
+                for (Activity act : allActivities) {
+                    act.finish();
+                }
+            }
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
+    }
+
+    private void initEMClient() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
@@ -28,27 +89,20 @@ public class Myapplication extends Application {
         // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
         // 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回
         if (processAppName == null || !processAppName.equalsIgnoreCase(this.getPackageName())) {
-            Log.e("zhucehx", "enter the service process!");
             // 则此application::onCreate 是被service 调用的，直接返回
             return;
         } else {
-            Log.e("zhucehx", "----- else -----");
         }
         //初始化
         EMClient.getInstance().init(getApplicationContext(), options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
-        initLeakCanary();
     }
 
     private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            Log.d("Application", "Application---");
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
             return;
         }
-        Log.d("Application", "Application+++");
         LeakCanary.install(this);
     }
 
@@ -66,7 +120,6 @@ public class Myapplication extends Application {
                     return processName;
                 }
             } catch (Exception e) {
-                // Log.d("Process", "Error>> :"+ e.toString());
             }
         }
         return processName;

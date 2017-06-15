@@ -13,22 +13,19 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.ScaleInTransformer;
 import cn.shopin.oneposition.adapter.ViewPagerAdapter;
@@ -40,20 +37,17 @@ import cn.shopin.oneposition.fragments.BaseMvpFragment;
 import cn.shopin.oneposition.fragments.moviefrag.collection.CollectionFrag;
 import cn.shopin.oneposition.fragments.moviefrag.nostalgic.NostalgicFrag;
 import cn.shopin.oneposition.fragments.moviefrag.piecerate.MoviePieceFrag;
+import cn.shopin.oneposition.model.db.DBManager;
 import cn.shopin.oneposition.util.EnumServerMap;
-
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
 
 /**
  * Created by zcs on 2016/12/5.
  */
-public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, MoviePresenter> implements MovieContract.IMovieView, View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MovieFragment extends BaseMvpFragment<MoviePresenter> implements MovieContract.IMovieView, View.OnClickListener, ViewPager.OnPageChangeListener, View.OnTouchListener {
     /**
      * 这个方法中我们主要是通过布局填充器获取fragment布局.
      * Nullable 表示可以为空-即：可传空值
      */
-    private View view;
-    private FrameLayout fragContainer;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
     private List<ImageView> imgs;
@@ -67,10 +61,13 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     private ItemView item1;
     private ItemView item2;
     private ItemView item3;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private CoordinatorLayout coordinatorlayout;
-    private NestedScrollView nestedScrollview;
+    @BindView(R.id.swipe_refreshlayout)
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.nestedScrollview)
+    protected NestedScrollView nestedScrollview;
     private static int selectedIndex = 1;
+    @Inject
+    protected DBManager dbManager;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -90,32 +87,26 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("fraglife", "MovieFragment-----onCreate");
         inidFrags();
     }
 
     @Override
-    protected MoviePresenter createPresenter(MovieContract.IMovieView view) {
-        return new MoviePresenter(this);
+    protected void initInject() {
+        getFragmentComponent().inject(this);
     }
 
-    @Nullable
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.frag_movie, null);
-        }
-        ViewGroup parentView = (ViewGroup) view.getParent();
-        if (parentView != null) {
-            Log.d("fraglife", "MovieFragment  parentView != null");
-            parentView.removeView(view);
-            return view;
-        } else {
-            Log.d("fraglife", "MovieFragment  parentView == null");
-        }
-        Log.d("fraglife", "MovieFragment-----onCreateView");
-        return view;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.frag_movie;
     }
 
+    @Override
+    protected void initEventAndData() {
+        initView();
+        initListener();
+        initViewPager();
+        initData();
+    }
 
     /**
      * 初始化Frags
@@ -145,61 +136,9 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
         viewPager.setPageMargin(0);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setPageTransformer(true, new ScaleInTransformer());
-        nestedScrollview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.d("getVisibility", "nestedScrollview---ACTION_DOWN---");
-                        Rect rect = new Rect();
-                        if (viewPager.getGlobalVisibleRect(rect)) {
-                            if (rect.height() > viewPager.getHeight() - 10) {
-                                Log.d("getVisibility", "---VISIBLE---");
-                                swipeRefreshLayout.setEnabled(false);
-                            } else {
-                                swipeRefreshLayout.setEnabled(false);
-                            }
-                        } else {
-                            swipeRefreshLayout.setEnabled(false);
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.d("getVisibility", "viewPager---ACTION_DOWN---");
-                        Rect rect = new Rect();
-                        if (viewPager.getGlobalVisibleRect(rect)) {
-                            if (rect.height() > viewPager.getHeight() - 10) {
-                                Log.d("getVisibility", "---VISIBLE---");
-                                swipeRefreshLayout.setEnabled(false);
-                            } else {
-                                swipeRefreshLayout.setEnabled(false);
-                            }
-                        } else {
-                            swipeRefreshLayout.setEnabled(false);
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+        nestedScrollview.setOnTouchListener(this);
+        viewPager.setOnTouchListener(this);
         pagerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("fraglife", "---onActivityCreated---");
-        initView();
-        initListener();
-        initViewPager();
-        initData();
     }
 
     @Override
@@ -209,10 +148,9 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
 
     public void initView() {
         fragManager = getChildFragmentManager();
-        fragContainer = (FrameLayout) view.findViewById(R.id.frag_container);
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        tabButton = (TabButton) view.findViewById(R.id.bt_hovertab);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refreshlayout);
+        viewPager = (ViewPager) mView.findViewById(R.id.viewpager);
+        tabButton = (TabButton) mView.findViewById(R.id.bt_hovertab);
+        swipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refreshlayout);
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -220,7 +158,7 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
                 handler.sendEmptyMessageDelayed(0, 2000);
             }
         });
-        nestedScrollview = (NestedScrollView) view.findViewById(R.id.nestedScrollview);
+        nestedScrollview = (NestedScrollView) mView.findViewById(R.id.nestedScrollview);
         // TODO: 2017/1/19 防止执行onCreateView时，item再次创建
         if (tabButton.getChildCount() == 0) {
             item1 = new ItemView(getActivity());
@@ -307,12 +245,12 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onPageSelected(int position) {
         xposition = position;
-
     }
 
     int xposition = 1;
@@ -332,6 +270,34 @@ public class MovieFragment extends BaseMvpFragment<MovieContract.IMovieView, Mov
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("fraglife", "MovieFragment-----onDestroyView");
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.viewpager:
+            case R.id.nestedScrollview:
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Rect rect = new Rect();
+                        if (viewPager.getGlobalVisibleRect(rect)) {
+                            if (rect.height() > viewPager.getHeight() - 10) {
+                                swipeRefreshLayout.setEnabled(true);
+                                refresh(selectedIndex);
+                            } else {
+                                swipeRefreshLayout.setEnabled(false);
+                            }
+                        } else {
+                            swipeRefreshLayout.setEnabled(false);
+                        }
+                        break;
+                }
+                break;
+        }
+        return false;
+    }
+
+    private void refresh(int selectedIndex) {
+        Toast.makeText(getActivity(), "刷新 " + selectedIndex, Toast.LENGTH_SHORT).show();
     }
 }

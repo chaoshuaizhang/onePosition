@@ -5,15 +5,18 @@ import java.util.List;
 import cn.shopin.oneposition.entity.movie.BannerDetailEntity;
 import cn.shopin.oneposition.entity.movie.NostalgicEntity;
 import cn.shopin.oneposition.entity.movie.PieceEntity;
+import dagger.Module;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by zcs on 2016/12/16.
  *
  * @desc
  */
+@Module
 public interface MovieApi {
     public static String MOVIE_DETAIL = "http://moviewapp.dazui.com/Article/Detailv2?id=";
 
@@ -28,13 +31,13 @@ public interface MovieApi {
      * @return
      */
     @GET("/APIV3/Article/GetList")
-    Observable<List<BannerDetailEntity>> getTopBanner(@Query("fromTime") String fromTime,
-                                                      @Query("count") String count,
-                                                      @Query("category") String category,
-                                                      @Query("type") String type,
-                                                      @Query("subtype") String subtype,
-                                                      @Query("recommend") String recommend,
-                                                      @Query("haslinks") String haslinks);
+    Flowable<List<BannerDetailEntity>> getTopBanner(@Query("fromTime") String fromTime,
+                                                    @Query("count") String count,
+                                                    @Query("category") String category,
+                                                    @Query("type") String type,
+                                                    @Query("subtype") String subtype,
+                                                    @Query("recommend") String recommend,
+                                                    @Query("haslinks") String haslinks);
 
     /**
      * @param fromTime
@@ -61,11 +64,11 @@ public interface MovieApi {
      */
     //http://moviewapp.dazui.com/APIV3/Article/GetList?fromTime=1469007382000&count=10&category=2&type=0&subtype=39
     @GET("/APIV3/Article/GetList")
-    Observable<List<NostalgicEntity>> getMovieNostalgic(@Query("fromTime") String fromTime,
-                                                        @Query("count") String count,
-                                                        @Query("category") String category,
-                                                        @Query("type") String type,
-                                                        @Query("subtype") String subtype);
+    Flowable<List<NostalgicEntity>> getMovieNostalgic(@Query("fromTime") String fromTime,
+                                                      @Query("count") String count,
+                                                      @Query("category") String category,
+                                                      @Query("type") String type,
+                                                      @Query("subtype") String subtype);
 
     /**
      * @param timestamp
@@ -73,7 +76,7 @@ public interface MovieApi {
      * @desc 排片
      */
     @GET("/MovieSheet/GetDataByDate")
-    Observable<List<PieceEntity>> getMoviePieceEntity(@Query("timestamp") String timestamp);
+    Flowable<List<PieceEntity>> getMoviePieceEntity(@Query("timestamp") String timestamp);
 
 
 }

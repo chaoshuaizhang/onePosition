@@ -11,7 +11,7 @@ public enum EnumServerMap {
     movie(Cans.TAG_MOVIE, "http://moviewapp.dazui.com"),
     heart(Cans.TAG_HEART, "http://api.xinliji.me"),
     live(Cans.TAG_LIVE, ""),
-    ocean(Cans.TAG_OCEAN, ""),
+    ocean(Cans.TAG_OCEAN, "http://mrobot.pconline.com.cn"),
     balloon(Cans.TAG_BALLOON, "");
 
     private int tag;

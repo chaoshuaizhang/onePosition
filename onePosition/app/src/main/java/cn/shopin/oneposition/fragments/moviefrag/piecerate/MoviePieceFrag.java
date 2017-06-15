@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -49,33 +48,31 @@ import cn.shopin.oneposition.calendar.CalendarView;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.customview.MyDecoration;
 import cn.shopin.oneposition.entity.movie.PieceEntity;
+import cn.shopin.oneposition.fragments.BaseMvpFragment;
 import cn.shopin.oneposition.util.DataUtil;
 import cn.shopin.oneposition.util.DateUtil;
 import cn.shopin.oneposition.util.RetrofitUtil;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zcs on 2016/12/11.
  */
 //http://moviewapp.dazui.com/MovieSheet/GetDataByDate?timestamp='当前毫秒数'
-public class MoviePieceFrag extends Fragment implements OnChartValueSelectedListener, PieceRecyclerAdapter.pieceClickListener {
-    private View view;
-    private PieChart mPieChart;
+public class MoviePieceFrag extends BaseMvpFragment<MoviePiecePresenter> implements PieceContract.IPieceView, OnChartValueSelectedListener, PieceRecyclerAdapter.pieceClickListener {
     private Typeface mTfLight;
     private Typeface mTfRegular;
     private List<PieceEntity> dataList;
+    @BindView(R.id.piechart)
+    protected PieChart mPieChart;
     @BindView(R.id.recyclerView)
     protected RecyclerView recyclerview;
     @BindView(R.id.curr_day_detail)
     protected TextView textCurrDay;
-    private LinearLayoutManager layoutManager;
-    private PieceRecyclerAdapter recyclerAdapter;
     @BindView(R.id.session_count)
     protected TextView sessionCount;
     @BindView(R.id.piece_count)
     protected TextView pieceCount;
+    private LinearLayoutManager layoutManager;
+    private PieceRecyclerAdapter recyclerAdapter;
     private long sessionCounts = 0;
     private int pieceCounts = 10;
     private int[] selectedDay = new int[4];
@@ -97,22 +94,29 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
         dayOffset = 0;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.frag_moviepiece, null);
-        }
-        ViewGroup parentView = (ViewGroup) view.getParent();
-        if (parentView != null) {
-            parentView.removeView(view);
-            return view;
-        }
-        ButterKnife.bind(this, view);
-        View calView = inflater.inflate(R.layout.activity_calendar, container, false);
+    protected void initInject() {
+        getFragmentComponent().inject(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.frag_moviepiece;
+    }
+
+    @Override
+    protected void initEventAndData() {
+        initView();
+        initListener();
+        initData();
+    }
+
+    @Override
+    public void initView() {
+        View calView = LayoutInflater.from(getContext()).inflate(R.layout.activity_calendar, null);
         calendarDateView = (CalendarDateView) calView.findViewById(R.id.calendarDateView);
         selectYMD = (TextView) calView.findViewById(R.id.selectYMD);
-        calendarPopWindow = new PopupWindow(calView, 500, 550, true);
+        calendarPopWindow = new PopupWindow(calView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         calendarPopWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), ""));
         calendarPopWindow.setOutsideTouchable(true);
         sessionCount.setCompoundDrawablePadding(3);
@@ -124,7 +128,10 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
         recyclerview.setAdapter(recyclerAdapter);
         recyclerview.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.VERTICAL_LIST));
         initPieChart();
-        initData(DateUtil.currdate2MillSecond());
+    }
+
+    @Override
+    public void initListener() {
         calendarDateView.setAdapter(new CaledarAdapter() {
             @Override
             public View getView(View convertView, ViewGroup parentView, CalendarBean bean) {
@@ -146,7 +153,7 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
         calendarDateView.setOnItemClickListener(new CalendarView.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int postion, CalendarBean bean) {
-                initData(DateUtil.date2MillSecond(bean.year, bean.moth, bean.day));
+                loadMvDetail(DateUtil.date2MillSecond(bean.year, bean.moth, bean.day));
                 selectedDay[0] = bean.year;
                 selectedDay[1] = bean.moth;
                 selectedDay[2] = bean.day;
@@ -160,13 +167,16 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
                 selectYMD.setText(String.format("%d-%d-%d", bean.year, bean.moth, bean.day));
             }
         });
-        return view;
+    }
+
+    @Override
+    public void initData() {
+        loadMvDetail(DateUtil.currdate2MillSecond());
     }
 
     private void initPieChart() {
         mTfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
         mTfRegular = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-        mPieChart = (PieChart) view.findViewById(R.id.piechart);
         mPieChart.setUsePercentValues(true);
         mPieChart.getDescription().setEnabled(false);
         mPieChart.setExtraOffsets(5, 10, 5, 5);
@@ -207,12 +217,12 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
         switch (view.getId()) {
             case R.id.pre_day:
                 selectedDay = DateUtil.getPreDayByYMD(selectedDay, -1);
-                initData(DateUtil.date2MillSecond(selectedDay[0], selectedDay[1], selectedDay[2]));
+                loadMvDetail(DateUtil.date2MillSecond(selectedDay[0], selectedDay[1], selectedDay[2]));
                 calendarDateView.chonghui(selectedDay[0], selectedDay[1], selectedDay[2]);
                 break;
             case R.id.next_day:
                 selectedDay = DateUtil.getNextDayByYMD(selectedDay, +1);
-                initData(DateUtil.date2MillSecond(selectedDay[0], selectedDay[1], selectedDay[2]));
+                loadMvDetail(DateUtil.date2MillSecond(selectedDay[0], selectedDay[1], selectedDay[2]));
                 calendarDateView.chonghui(selectedDay[0], selectedDay[1], selectedDay[2]);
                 break;
             case R.id.more_day:
@@ -220,38 +230,6 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
                 calendarPopWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
                 break;
         }
-    }
-
-    private void initData(String dateStr) {
-        MovieApi movieApi = RetrofitUtil.createService(MovieApi.class, Cans.TAG_MOVIE);
-        movieApi.getMoviePieceEntity(dateStr)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<PieceEntity>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("TTAAGG11", e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<PieceEntity> moviePieceEntities) {
-                        dataList.clear();
-                        dataList.addAll(moviePieceEntities);
-                        sessionCount.setText(String.format("今日全国总场次:%s场", getMovieData()));
-                        pieceCount.setText(String.format("总排片数:%d部", pieceCounts));
-                        for (int i = 0; i < dataList.size(); i++) {
-                            dataList.get(i).setRatio((float) dataList.get(i).getEvents() / sessionCounts);
-                        }
-                        recyclerAdapter.notifyDataSetChanged();
-                        setData(10, 100);
-                        textCurrDay.setText(String.format("%d月%d日", selectedDay[1], selectedDay[2]));
-                    }
-                });
     }
 
     private SpannableString generateCenterSpannableText() {
@@ -313,9 +291,7 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
     public void onValueSelected(Entry e, Highlight h) {
         if (e == null)
             return;
-        Log.i("VAL SELECTED",
-                "Value: " + e.getY() + ", index: " + h.getX()
-                        + ", DataSet index: " + h.getX());
+        Log.i("VAL SELECTED", "Value: " + e.getY() + ", index: " + h.getX() + ", DataSet index: " + h.getX());
     }
 
     @Override
@@ -326,5 +302,24 @@ public class MoviePieceFrag extends Fragment implements OnChartValueSelectedList
     @Override
     public void pieceClick(int position) {
         Log.d("TTAAG", "" + mPieChart.getDrawAngles()[0] + "  " + mPieChart.getDrawAngles()[1] + "   " + mPieChart.getDrawAngles()[2]);
+    }
+
+    @Override
+    public void loadMvDetail(String timeStr) {
+        mPresenter.loadMvDetail(timeStr);
+    }
+
+    @Override
+    public void setMvDetail(List<PieceEntity> pieceEntities) {
+        dataList.clear();
+        dataList.addAll(pieceEntities);
+        sessionCount.setText(String.format("今日全国总场次:%s场", getMovieData()));
+        pieceCount.setText(String.format("总排片数:%d部", pieceCounts));
+        for (int i = 0; i < dataList.size(); i++) {
+            dataList.get(i).setRatio((float) dataList.get(i).getEvents() / sessionCounts);
+        }
+        recyclerAdapter.notifyDataSetChanged();
+        setData(10, 100);
+        textCurrDay.setText(String.format("%d月%d日", selectedDay[1], selectedDay[2]));
     }
 }

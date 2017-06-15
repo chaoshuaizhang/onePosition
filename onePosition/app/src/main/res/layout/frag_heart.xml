@@ -7,6 +7,12 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical">
 
+    <!--    <android.support.v7.widget.Toolbar
+            style="@style/MyToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.Toolbar>-->
+
     <LinearLayout
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
@@ -48,6 +54,7 @@
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -61,10 +68,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"></android.support.v4.view.ViewPager>
+                    android:layout_height="180dp"></com.youth.banner.Banner>
 
                 <include layout="@layout/heart_type_tag"/>
 
@@ -80,6 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     ></cn.shopin.oneposition.customview.AdverView>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
@@ -89,15 +97,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="- 推荐咨询师 -"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/colorGray"
                     />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
@@ -258,6 +268,7 @@
                     android:text="- 最新心理圈 -"/>
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 

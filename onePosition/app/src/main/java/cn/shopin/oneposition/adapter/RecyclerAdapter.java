@@ -132,12 +132,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setLaoding(boolean isLoad) {
-        if (isLoad && footView != null) {
-            clickToLoad.setVisibility(View.GONE);
-            loadMoreLayout.setVisibility(View.VISIBLE);
-        } else {
-            clickToLoad.setVisibility(View.VISIBLE);
-            loadMoreLayout.setVisibility(View.GONE);
+        if (footView != null) {
+            if (isLoad) {
+                clickToLoad.setVisibility(View.GONE);
+                loadMoreLayout.setVisibility(View.VISIBLE);
+            } else {
+                clickToLoad.setVisibility(View.VISIBLE);
+                loadMoreLayout.setVisibility(View.GONE);
+            }
         }
     }
 

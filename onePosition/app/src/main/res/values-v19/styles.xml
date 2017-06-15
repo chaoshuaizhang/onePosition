@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme19" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="AppTheme19">
+        //透明状态栏
+        <item name="android:windowBackground">@color/colorQQBlue</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MainTheme" parent="AppTheme19">
+        //自定义状态栏颜色
+        <item name="android:windowBackground">@color/colorRed</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+</resources>

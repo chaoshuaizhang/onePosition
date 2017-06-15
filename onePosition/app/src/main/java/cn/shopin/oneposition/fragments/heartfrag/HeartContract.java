@@ -1,5 +1,15 @@
 package cn.shopin.oneposition.fragments.heartfrag;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+
+import java.io.File;
+
+import cn.shopin.oneposition.entity.heart.ActionLabelEntity;
+import cn.shopin.oneposition.entity.heart.HomeCarousel;
+import cn.shopin.oneposition.entity.heart.HomeConsults;
 import cn.shopin.oneposition.mvpbase.BaseModel;
 import cn.shopin.oneposition.mvpbase.BasePresenter;
 import cn.shopin.oneposition.mvpbase.BaseView;
@@ -13,11 +23,33 @@ public interface HeartContract {
     }
 
     interface IHeartView extends BaseView {
+        void setTopBanner(HomeCarousel homeCarousel);
+
+        void setHomeConsults(HomeConsults homeConsults);
+
+        void setgetActionLabels(ActionLabelEntity labelEntity);
+
+        void startActivity(Intent intent, int tag);
     }
 
-    abstract class IHeartPresenter extends BasePresenter<IHeartView> {
-        public IHeartPresenter(IHeartView iHeartView) {
-            super(iHeartView);
-        }
+    interface IHeartPresenter {
+
+        void getTopBanner(String type);
+
+        void getHomeConsults();
+
+        void getActionLabels();
+
+        Bitmap getBitmapByPath(String path);
+
+        void saveBitmapoCard(Bitmap mBitmap);
+
+        void openCamera();
+
+        void showMissingPermissionDialog();
+
+        void cropPhoto(Uri uri);
+
+        String getSavePath();
     }
 }

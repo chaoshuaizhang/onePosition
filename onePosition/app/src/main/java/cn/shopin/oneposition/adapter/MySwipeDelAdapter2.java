@@ -1,11 +1,7 @@
 package cn.shopin.oneposition.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,12 +16,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.customview.SwipeDelView;
 import cn.shopin.oneposition.entity.movie.CollectEntity;
 import cn.shopin.oneposition.util.EnumServerMap;
-import cn.shopin.oneposition.util.db.DBManager;
+import cn.shopin.oneposition.model.db.DBManager;
 
 /**
  * Created by zcs on 2017/3/24.
@@ -37,12 +35,12 @@ public class MySwipeDelAdapter2 extends BaseAdapter implements SwipeDelView.OnSw
     private LayoutInflater mInflater = null;
     private ArrayList<SwipeDelView> unClosedSwipeView = new ArrayList<>();
     private MyItemClickListener myClickListener;
-    private DBManager dbManager;
+
+    @Inject
 
     public MySwipeDelAdapter2(Context mContext, List<CollectEntity> datas, Fragment frag) {
         this.mContext = mContext;
         this.datas = datas;
-        dbManager = new DBManager(mContext);
         myClickListener = (MyItemClickListener) frag;
         mInflater = LayoutInflater.from(mContext);
     }
@@ -129,9 +127,7 @@ public class MySwipeDelAdapter2 extends BaseAdapter implements SwipeDelView.OnSw
         holder.unCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbManager.delete(datas.get(position));
-                datas.remove(position);
-                notifyDataSetChanged();
+                myClickListener.deleteItem(datas.get(position).getId(), position);
             }
         });
         holder.setTop.setOnClickListener(new View.OnClickListener() {
@@ -197,5 +193,7 @@ public class MySwipeDelAdapter2 extends BaseAdapter implements SwipeDelView.OnSw
         void clickListener(int position);
 
         void longClickListener(int position);
+
+        void deleteItem(int id, int position);
     }
 }

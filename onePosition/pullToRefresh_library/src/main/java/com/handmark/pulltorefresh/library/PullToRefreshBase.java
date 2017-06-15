@@ -1338,7 +1338,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                     return new RotateLoadingLayout(context, mode, scrollDirection, attrs);
                 case FLIP://箭头
                     return new FlipLoadingLayout(context, mode, scrollDirection, attrs);
-                case MYROTATE://箭头
+                case MYROTATE://什么都不显示
                     return new MyRotateLoadingLayout(context, mode, scrollDirection, attrs);
             }
         }

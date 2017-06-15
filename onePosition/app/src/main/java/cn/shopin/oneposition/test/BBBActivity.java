@@ -1,4 +1,4 @@
-package cn.shopin.oneposition.activities;
+package cn.shopin.oneposition.test;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import cn.shopin.oneposition.R;
+import cn.shopin.oneposition.test.AAAActivity;
 
 public class BBBActivity extends AppCompatActivity {
 

@@ -16,31 +16,35 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.shopin.oneposition.R;
 import cn.shopin.oneposition.adapter.RecyclerAdapter;
 import cn.shopin.oneposition.api.MovieApi;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.entity.movie.NostalgicEntity;
+import cn.shopin.oneposition.fragments.BaseMvpFragment;
 import cn.shopin.oneposition.fragments.webdetail.MovieDetailActivity;
 import cn.shopin.oneposition.util.DateUtil;
 import cn.shopin.oneposition.util.RetrofitUtil;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zcs on 2016/12/11.
  */
-public class NostalgicFrag extends Fragment {
+public class NostalgicFrag extends BaseMvpFragment<NostalgicPresenter> implements NostalgicContract.INostalgicView {
     private View view;
-    private RecyclerView recyclerView;
+    @BindView(R.id.recyclerview)
+    protected RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private RecyclerAdapter recyclerAdapter;
     private List<NostalgicEntity> dataList;
     private int firstVisiblePosition = 0;
     private int lastVisiblePosition = 0;
     private String timeStr = "0";
-    private boolean loadMore = false;
+    private boolean loadMore = false;//避免重复执行onCreateViewV时，重富加载数据
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,14 +67,27 @@ public class NostalgicFrag extends Fragment {
             parentView.removeView(view);
             return view;
         }
-        initView();
-        initData();
+        initInject();
         return view;
     }
 
-    private void initView() {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        recyclerView.addOnScrollListener(new RecyclerOnScrollListener());
+    @Override
+    protected void initInject() {
+        getFragmentComponent().inject(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.frag_nostalgic;
+    }
+
+    @Override
+    protected void initEventAndData() {
+        initView();
+        initData();
+    }
+
+    public void initView() {
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         // TODO: 2017/2/10 解决recyclerview滑动卡顿
         layoutManager.setSmoothScrollbarEnabled(true);
@@ -88,7 +105,7 @@ public class NostalgicFrag extends Fragment {
                     timeStr = DateUtil.getSubDate(dataList.get(position - 1).getCreatetime());
                     loadMore = true;
                     recyclerAdapter.setLaoding(loadMore);
-                    initData();
+                    loadData(timeStr);
                 } else {//点击跳转到webview
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("entity", dataList.get(position));
@@ -98,37 +115,31 @@ public class NostalgicFrag extends Fragment {
         });
     }
 
+    @Override
+    public void initListener() {
+
+    }
+
     private void init() {
         dataList = new ArrayList<>();
     }
 
-    private void initData() {
-        if (!loadMore) {
-            return;
+    public void initData() {
+        if (loadMore) {
+            loadData(timeStr);
         }
-        MovieApi movieApi = RetrofitUtil.createService(MovieApi.class, Cans.TAG_MOVIE);
-        movieApi.getMovieNostalgic(timeStr, "10", "2", "0", "39")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<NostalgicEntity>>() {
-                    @Override
-                    public void onCompleted() {
+    }
 
-                    }
+    @Override
+    public void loadData(String timeStr) {
+        mPresenter.getMovieNostalgic(timeStr, "10", "2", "0", "39");
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(List<NostalgicEntity> moviePieceEntities) {
-                        dataList.addAll(moviePieceEntities);
-                        recyclerAdapter.notifyDataSetChanged();
-                        loadMore = false;
-                        initData();
-                        recyclerAdapter.setLaoding(loadMore);
-                    }
-                });
+    @Override
+    public void getMovieNostalgic(List<NostalgicEntity> datas) {
+        dataList.addAll(datas);
+        recyclerAdapter.notifyDataSetChanged();
+        recyclerAdapter.setLaoding(false);
     }
 
     class RecyclerOnScrollListener extends OnScrollListener {

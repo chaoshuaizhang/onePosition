@@ -1,10 +1,16 @@
-package cn.shopin.oneposition.util.db;
+package cn.shopin.oneposition.model.db;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import javax.inject.Inject;
+
+import cn.shopin.oneposition.Myapplication;
+import cn.shopin.oneposition.di.component.DaggerActivityComponent;
+import cn.shopin.oneposition.di.component.DaggerFragmentComponent;
 
 /**
  * Created by zcs on 2017/3/22.
@@ -13,8 +19,10 @@ import android.util.Log;
 public class MySqLiteOpenHelper extends SQLiteOpenHelper {
     private static SQLiteDatabase sqlDbInstance;
 
-    public MySqLiteOpenHelper(Context mContext) {
-        this(mContext, "opdb", null, 1);
+    @Inject
+    public MySqLiteOpenHelper() {
+        this(Myapplication.getInstance(), "opdb", null, 1);
+        Log.d("MySqLiteOpenHelper", "MySqLiteOpenHelper  初始化");
     }
 
     public MySqLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -55,6 +63,8 @@ public class MySqLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO: 2017/3/22 在此方法中 alter table
+        // db.execSQL("alter table 表名 add 字段 类型 not null default '默认值'");
+        //亦可以新建表 db.execSQL("create table tab2(id integer primary key autoincrement , name text)");
         Log.d("sqlOP", "onUpgrade");
     }
 }

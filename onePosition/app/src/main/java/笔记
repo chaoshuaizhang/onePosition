@@ -72,3 +72,6 @@
             });
         }
     }
+
+6、为什么一定要在 presenter中加入 带有@Inject的构造方法？
+        因为需要给activity提供（注入）一个presenter，这种方法叫构造器注入。

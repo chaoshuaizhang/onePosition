@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
-    tools:context="cn.shopin.oneposition.activities.AAAActivity">
+    tools:context="cn.shopin.oneposition.test.AAAActivity">
 
     <TextView
         android:id="@+id/text"
