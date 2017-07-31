@@ -264,6 +264,7 @@ public class MovieFragment extends BaseMvpFragment<MoviePresenter> implements Mo
                 xposition = 1;
             }
             viewPager.setCurrentItem(xposition, false);
+            //diff
         }
     }
 
