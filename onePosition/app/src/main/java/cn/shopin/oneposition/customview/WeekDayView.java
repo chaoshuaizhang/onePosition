@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by zcs on 2017/4/5.
@@ -22,12 +23,13 @@ public class WeekDayView extends View {
     private int mWeedayColor = Color.parseColor("#1FC2F3");
     //周六、周日的颜色
     private int mWeekendColor = Color.parseColor("#fa4451");
-    //线的宽度
+    //线的高度
     private int mStrokeWidth = 4;
     private int mWeekSize = 14;
     private Paint paint;
     private DisplayMetrics mDisplayMetrics;
     private String[] weekString = new String[]{"日", "一", "二", "三", "四", "五", "六"};
+    private Context mContext;
 
     public WeekDayView(Context context) {
         this(context, null);
@@ -39,6 +41,7 @@ public class WeekDayView extends View {
 
     public WeekDayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         init();
     }
 
@@ -59,11 +62,13 @@ public class WeekDayView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (heightMode == MeasureSpec.AT_MOST) {
-            heightSize = mDisplayMetrics.densityDpi * 20;
+            //20px 转换为 dp
+            heightSize = (int) (mDisplayMetrics.density * 20);
         }
         if (widthMode == MeasureSpec.AT_MOST) {
-            widthSize = mDisplayMetrics.densityDpi * 200;
+            widthSize = (int) (mDisplayMetrics.density * 200);
         }
+        Toast.makeText(mContext, heightSize + "   " + widthSize, Toast.LENGTH_SHORT).show();
         setMeasuredDimension(widthSize, heightSize);
     }
 
@@ -88,6 +93,7 @@ public class WeekDayView extends View {
             String text = weekString[i];
             int fontWidth = (int) paint.measureText(text);
             int startX = columnWidth * i + (columnWidth - fontWidth) / 2;
+            //文字是放在 ascent和descent之间的，所以让accent和descent居中即可
             int startY = (int) (height / 2 - (paint.ascent() + paint.descent()) / 2);
             if (text.indexOf("日") > -1 || text.indexOf("六") > -1) {
                 paint.setColor(mWeekendColor);

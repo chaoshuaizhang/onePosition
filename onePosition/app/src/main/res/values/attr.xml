@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TabButton">
-        <attr name="tab_content" format="string" />
+        <attr name="tab_content" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
-        <attr name="outCircleColor" format="color" />
-        <attr name="outCircleWidth" format="dimension" />
+        <attr name="outCircleColor" format="color"/>
+        <attr name="outCircleWidth" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="TasksCompletedView">
-        <attr name="xCenter" format="dimension" />
-        <attr name="yCenter" format="dimension" />
-        <attr name="radius" format="dimension" />
-        <attr name="strokeWidth" format="dimension" />
-        <attr name="circleColor" format="color" />
-        <attr name="ringColor" format="color" />
-        <attr name="textColor" format="color" />
+        <attr name="xCenter" format="dimension"/>
+        <attr name="yCenter" format="dimension"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="circleColor" format="color"/>
+        <attr name="ringColor" format="color"/>
+        <attr name="textColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="CircleImageView1">
-        <attr name="civ_border_width" format="dimension" />
-        <attr name="civ_border_color" format="color" />
-        <attr name="civ_border_overlay" format="boolean" />
-        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_fill_color" format="color"/>
     </declare-styleable>
     <declare-styleable name="AdverView">
-        <attr name="gap" format="integer" />
-        <attr name="animDuration" format="integer" />
+        <attr name="gap" format="integer"/>
+        <attr name="animDuration" format="integer"/>
     </declare-styleable>
     <declare-styleable name="CalendarView">
-        <attr name="calendar_row" format="integer" />
+        <attr name="calendar_row" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="CalendarTopView">
+        <attr name="weekEndColor" format="color"/>
+        <attr name="weekDayColor" format="color"/>
+        <attr name="weekTextSize" format="dimension"/>
+        <attr name="lineColor" format="color"/>
+    </declare-styleable>
+
 </resources>

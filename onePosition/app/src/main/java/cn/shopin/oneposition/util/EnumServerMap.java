@@ -12,7 +12,8 @@ public enum EnumServerMap {
     heart(Cans.TAG_HEART, "http://api.xinliji.me"),
     live(Cans.TAG_LIVE, ""),
     ocean(Cans.TAG_OCEAN, "http://mrobot.pconline.com.cn"),
-    balloon(Cans.TAG_BALLOON, "");
+    balloon(Cans.TAG_BALLOON, ""),
+    user(Cans.TAG_USER,"http://oneposition.51vip.biz:26542");
 
     private int tag;
     private String baseUrl;

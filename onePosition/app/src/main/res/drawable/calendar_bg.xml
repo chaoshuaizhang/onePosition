@@ -3,10 +3,10 @@
     <item>
         <shape>
             <corners android:radius="5dp"/>
-            <stroke android:width="3dp" android:color="@color/colorAccent"/>
+            <!--<stroke android:width="3dp" android:color="@color/colorAccent"/>-->
             <gradient
-                android:endColor="@color/colorGray"
-                android:startColor="@color/colorGray"
+                android:endColor="@color/colorWhite"
+                android:startColor="@color/colorWhite"
                 />
         </shape>
     </item>

@@ -19,9 +19,9 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
 
     @Override
     public void onNext(T tDataResultResponse) {
-        if (tDataResultResponse instanceof WelcomeEntity) {
+//        if (tDataResultResponse instanceof WelcomeEntity) {
             dataHandle(tDataResultResponse);
-        }
+//        }
     }
 
     @Override

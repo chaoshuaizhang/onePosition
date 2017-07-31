@@ -136,6 +136,7 @@ public class HeartFragment extends BaseMvpFragment<HeartPresenter> implements He
         initData();
     }
 
+
     @Override
     public void initView() {
         adverViewAdapter = new AdverViewAdapter(labelResultsEntities);

@@ -35,7 +35,7 @@ import cn.shopin.oneposition.fragments.moviefrag.MovieFragment;
 import cn.shopin.oneposition.util.ToastUtil;
 
 /**
- * 电影 我心 直播 太平洋 氢气球
+ *
  */
 public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.IMainView {
 

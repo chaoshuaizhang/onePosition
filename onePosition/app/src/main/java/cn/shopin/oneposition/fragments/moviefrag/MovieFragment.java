@@ -238,7 +238,7 @@ public class MovieFragment extends BaseMvpFragment<MoviePresenter> implements Mo
         }
         pagerAdapter.notifyDataSetChanged();
         for (int i = 0; i < dataList.size(); i++) {
-            Picasso.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).placeholder(R.mipmap.ic_launcher).fit().centerCrop().into(imgs.get(i));
+            Picasso.with(getActivity()).load(EnumServerMap.getBaseUrlByTag(Cans.TAG_MOVIE) + dataList.get(i).getPic()).placeholder(R.color.colorWhite).fit().centerCrop().into(imgs.get(i));
         }
         viewPager.setCurrentItem(xposition, false);
     }
@@ -281,7 +281,7 @@ public class MovieFragment extends BaseMvpFragment<MoviePresenter> implements Mo
                     case MotionEvent.ACTION_DOWN:
                         Rect rect = new Rect();
                         if (viewPager.getGlobalVisibleRect(rect)) {
-                            if (rect.height() > viewPager.getHeight() - 10) {
+                            if (rect.height() == viewPager.getHeight()) {
                                 swipeRefreshLayout.setEnabled(true);
                                 refresh(selectedIndex);
                             } else {

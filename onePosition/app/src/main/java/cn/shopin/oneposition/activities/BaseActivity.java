@@ -40,4 +40,20 @@ public class BaseActivity extends AppCompatActivity {
         //隐藏虚拟键
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
+
+    /**
+     * 初始化view
+     */
+    protected void initView(){}
+
+    /**
+     * 初始化监听器
+     */
+    protected void initListener(){}
+
+    /**
+     * 初始化数据操作
+     */
+    protected void initData(){}
+
 }

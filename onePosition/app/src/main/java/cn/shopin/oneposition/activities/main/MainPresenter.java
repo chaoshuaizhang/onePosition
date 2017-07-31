@@ -9,7 +9,7 @@ import cn.shopin.oneposition.mvpbase.BasePresenter;
 /**
  * Created by zcs on 2016/12/7.
  */
-public class MainPresenter extends BasePresenter<MainContract.IMainView> implements MainContract.MainPresenter {
+public class MainPresenter extends BasePresenter<MainContract.IMainView> implements MainContract.IMainPresenter {
 
     @Inject
     public MainPresenter() {

@@ -9,10 +9,12 @@ import javax.inject.Singleton;
 
 import cn.shopin.oneposition.api.HeartApi;
 import cn.shopin.oneposition.api.MovieApi;
+import cn.shopin.oneposition.api.UserApi;
 import cn.shopin.oneposition.api.WelcomeApi;
 import cn.shopin.oneposition.constants.Cans;
 import cn.shopin.oneposition.di.qualifier.HeartUrl;
 import cn.shopin.oneposition.di.qualifier.MovieUrl;
+import cn.shopin.oneposition.di.qualifier.UserUrl;
 import cn.shopin.oneposition.di.qualifier.WelcomeUrl;
 import cn.shopin.oneposition.util.RetrofitUtil;
 import dagger.Module;
@@ -104,6 +106,18 @@ public class HttpModule {
     @Provides
     HeartApi provideHeartService(@HeartUrl Retrofit retrofit) {
         return retrofit.create(HeartApi.class);
+    }
+
+    @Singleton
+    @Provides
+    @UserUrl
+    Retrofit provideUserRetrofit(Retrofit.Builder builder, OkHttpClient client) {
+        return RetrofitUtil.createRetrofit(builder, client, Cans.TAG_USER);
+    }
+    @Singleton
+    @Provides
+    UserApi provideUserService(@UserUrl Retrofit retrofit) {
+        return retrofit.create(UserApi.class);
     }
 
 }

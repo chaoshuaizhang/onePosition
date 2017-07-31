@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.mob.MobApplication;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.HashSet;
@@ -23,7 +24,7 @@ import cn.shopin.oneposition.di.module.HttpModule;
 /**
  * Created by zcs on 2016/12/7.
  */
-public class Myapplication extends Application {
+public class Myapplication extends MobApplication {
     private Set<Activity> allActivities;
     private static Myapplication instance;
     private static AppComponent appComponent;

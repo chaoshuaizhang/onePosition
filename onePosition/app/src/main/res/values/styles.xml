@@ -39,4 +39,17 @@
     <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">0dp</item>
     </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        //透明状态栏
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MainTheme" parent="AppTheme">
+        //自定义状态栏颜色
+        <item name="android:windowBackground">@color/colorBlue</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
 </resources>

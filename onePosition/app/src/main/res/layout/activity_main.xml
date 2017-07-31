@@ -15,6 +15,12 @@
         android:layout_weight="1"
         android:background="#FFFFFF">
     </FrameLayout>
+
+    <cn.shopin.oneposition.customview.Line
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray"/>
+
     <include
         layout="@layout/main_bottom_navigation"
         />

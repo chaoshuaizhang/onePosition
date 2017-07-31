@@ -1,14 +1,17 @@
 package cn.shopin.oneposition.model.net;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import cn.shopin.oneposition.api.HeartApi;
 import cn.shopin.oneposition.api.MovieApi;
+import cn.shopin.oneposition.api.UserApi;
 import cn.shopin.oneposition.api.WelcomeApi;
 import cn.shopin.oneposition.entity.BaseResponse;
 import cn.shopin.oneposition.entity.DataResultResponse;
+import cn.shopin.oneposition.entity.UserEntity;
 import cn.shopin.oneposition.entity.heart.ActionLabelEntity;
 import cn.shopin.oneposition.entity.heart.HomeCarousel;
 import cn.shopin.oneposition.entity.heart.HomeConsults;
@@ -25,14 +28,20 @@ import retrofit2.http.Query;
  */
 
 public class RetrofitHelper {
+    private UserApi userApi;
     private MovieApi movieApi;
     private WelcomeApi welcomeApi;
     private HeartApi heartApi;
 
-    public RetrofitHelper(MovieApi movieApi, WelcomeApi welcomeApi, HeartApi heartApi) {
+    public RetrofitHelper(MovieApi movieApi, WelcomeApi welcomeApi, HeartApi heartApi, UserApi userApi) {
         this.movieApi = movieApi;
         this.welcomeApi = welcomeApi;
         this.heartApi = heartApi;
+        this.userApi = userApi;
+    }
+
+    public Flowable<BaseResponse<Boolean>> register(Map<String, Object> map, UserEntity userEntity) {
+        return userApi.userRegister(map);
     }
 
     public Flowable<List<BannerDetailEntity>> getTopBanner(String fromTime, String count, String category, String type, String subtype, String recommend, String haslinks) {

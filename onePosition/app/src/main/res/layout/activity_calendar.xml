@@ -18,7 +18,7 @@
             />
     </LinearLayout>
 
-    <cn.shopin.oneposition.customview.WeekDayView
+    <cn.shopin.oneposition.customview.CalendarTop
         android:id="@+id/weekDayView"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>

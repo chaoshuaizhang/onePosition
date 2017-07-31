@@ -68,4 +68,5 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     protected abstract int getLayoutId();
 
     protected abstract void initEventAndData();
+
 }

@@ -11,6 +11,7 @@ public class Cans {
     public static int TAG_LIVE = 3;
     public static int TAG_OCEAN = 4;
     public static int TAG_BALLOON = 5;
+    public static int TAG_USER = 6;
 
     public final static int OPEN_CAMERA_RESULT = 6;
     public final static int OPEN_ALBUM_RESULT = 7;

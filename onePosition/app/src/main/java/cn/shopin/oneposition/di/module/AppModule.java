@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import cn.shopin.oneposition.Myapplication;
 import cn.shopin.oneposition.api.HeartApi;
 import cn.shopin.oneposition.api.MovieApi;
+import cn.shopin.oneposition.api.UserApi;
 import cn.shopin.oneposition.api.WelcomeApi;
 import cn.shopin.oneposition.model.net.RetrofitHelper;
 import dagger.Module;
@@ -34,7 +35,7 @@ public class AppModule {
 
     @Singleton
     @Provides
-    RetrofitHelper provideRetrofitHelper(MovieApi movieApi, WelcomeApi welcomeApi, HeartApi heartApi) {
-        return new RetrofitHelper(movieApi, welcomeApi, heartApi);
+    RetrofitHelper provideRetrofitHelper(MovieApi movieApi, WelcomeApi welcomeApi, HeartApi heartApi, UserApi userApi) {
+        return new RetrofitHelper(movieApi, welcomeApi, heartApi,userApi);
     }
 }
